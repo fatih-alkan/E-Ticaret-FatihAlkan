@@ -4,7 +4,7 @@ export default function Neural() {
     
     return (
         <>
-            <div className="relative w-full h-[900px] bg-cover bg-center bg-white  flex flex-col justify-center items-center text-center gap-4 md:flex-row md:flex-row-reverse md:max-w-[1124px] md:flex-1/2 md:justify-around md:m-auto md:max-h-[400px]">
+            <div className="relative w-full h-[900px] bg-cover bg-center bg-white  flex flex-col justify-center items-center text-center gap-4 md:flex-row-reverse md:max-w-[1124px] md:flex-1/2 md:justify-around md:m-auto md:max-h-[400px]">
                 <div className='flex flex-col'>
                     <p className=" text-[#BDBDBD] font-bold mt-30">SUMMER 2020</p>
                     <div className='flex flex-col gap-5'>
