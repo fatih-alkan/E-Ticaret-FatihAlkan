@@ -4,9 +4,9 @@ import twitter from "../images/footer-img/twitter.png"
 export default function Footer() {
     return (
         <>
-            <div className="flex flex-col items-start h-[1400px] ">
+            <div className="flex flex-col items-start h-[1400px] md:h-[650px]">
                 <div className="bg-[#FAFAFA] w-full mt-20 mb-20">
-                    <div className="flex flex-col mx-auto my-auto w-[325px] h-[173] ">
+                    <div className="flex flex-col mx-auto my-auto w-[325px] h-[173] md:flex-row md:items-center md: justify-between md:w-[1050px] ">
                         <h3 className="text-[#252B42] font-bold text-2xl">Bandage</h3>
                         <div className="flex gap-4 mt-8">
                             <a href=""><img src={facebook} alt="" /></a>
@@ -15,7 +15,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="h-[1071px] w-[321px] mx-auto flex flex-col items-start gap-2">
+                <div className="h-[1071px] w-[321px] mx-auto flex flex-col items-start gap-2 md:flex-row md:w-[1050px] md:flex-1/4 md:gap-32 ">
                     <div className="flex flex-col gap-2 mb-16">
                         <h5 className="text-[#252B42] mb-2 font-bold text-[16px]">Company Info</h5>
                         <a href="" className="text-[#737373] text-[14px] font-bold">About Us</a>
@@ -52,10 +52,14 @@ export default function Footer() {
                         </div>
                         <p className="text-[#737373]">Lorem ipsum dolor sit amet.</p>
                     </div>
-                    <div className="mx-auto bg-[#FAFAFA] my-auto w-full text-center">
+                    <div className="mx-auto bg-[#FAFAFA] my-auto w-full text-center md:hidden">
                         <h6 className="text-[16px] font-bold text-[#737373]">Made With Love By</h6>
                         <h6 className="text-[16px] font-bold text-[#737373]">Finland All Right Reserved</h6>
                     </div>
+                    
+                </div>
+                <div className="hidden md:flex md:justify-center md:h-16 md:w-full">
+                        <h6 className="text-[16px] font-bold text-[#737373]">Made With Love By Finland All Right Reserved</h6>
                 </div>
             </div>
         </>
