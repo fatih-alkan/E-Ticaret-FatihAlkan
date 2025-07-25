@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import arrow from "../images/shopPage-img/arrow.png"
-import shopHeaderCard from "../images/shopPage-img/shopHeaderCard.png"
-import shopHeaderCard1 from "../images/shopPage-img/shopHeaderCard1.png"
-import shopHeaderCard2 from "../images/shopPage-img/shopHeaderCard2.png"
-import shopHeaderCard3 from "../images/shopPage-img/shopHeaderCard3.png"
-import shopHeaderCard4 from "../images/shopPage-img/shopHeaderCard4.png"
+import shopHeaderCard from "../images/shopPage-img/ShopHeaderCard.png"
+import shopHeaderCard1 from "../images/shopPage-img/ShopHeaderCard1.png"
+import shopHeaderCard2 from "../images/shopPage-img/ShopHeaderCard2.png"
+import shopHeaderCard3 from "../images/shopPage-img/ShopHeaderCard3.png"
+import shopHeaderCard4 from "../images/shopPage-img/ShopHeaderCard4.png"
 
 
 export default function ShopHeader() {
