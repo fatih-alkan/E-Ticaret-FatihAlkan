@@ -7,9 +7,6 @@ import contact from '../images/header-img/contact.png'
 import home from '../images/header-img/home.png'
 import pricing from '../images/header-img/pricing.png'
 import product from '../images/header-img/product.png'
-import homeBanner from '../images/header-img/home-banner.jpg'
-import homeBanner1 from '../images/header-img/home-banner1.png'
-import homeBanner2 from '../images/header-img/home-banner2.png'
 import phone from '../images/header-img/phone.png'
 import message from '../images/header-img/message.png'
 import insta from '../images/header-img/insta.png'
@@ -26,23 +23,13 @@ import profileweb from '../images/header-img/profileweb.png'
 import searchweb from '../images/header-img/searchweb.png'
 import shoppingcardweb from '../images/header-img/shoppingcardweb.png'
 import likesweb from '../images/header-img/likesweb.png'
-const banners = [homeBanner, homeBanner1, homeBanner2];
+import { useNavigate, Link } from 'react-router-dom';
+
 export default function Header() {
+    const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const [shop, setShop] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const handlePrev = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? banners.length - 1 : prevIndex - 1
-        );
-    };
-
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === banners.length - 1 ? 0 : prevIndex + 1
-        );
-    };
     const handleToggle = (e) => {
         e.preventDefault();
         setVisible((prev) => !prev);
@@ -78,7 +65,7 @@ export default function Header() {
                 </div>
                 {/*mobil */}
                 <div className='flex justify-around pt-4 md:hidden'>
-                    <h3 className='font-bold text-2xl text-[#252B42]'>Bandage</h3>
+                    <h3 className='font-bold text-2xl text-[#252B42] '>Bandage</h3>
                     <div className='flex items-center gap-6'>
                         <a href=""><img src={profile} alt="" /></a>
                         <a href=""><img src={search} alt="" /></a>
@@ -87,11 +74,11 @@ export default function Header() {
                     </div>
                 </div>
                 {/*web */}
-                <div className='hidden md:flex justify-around '>
+                <div className='hidden md:flex justify-around max-w-[1042px] mx-auto gap-16'>
                     <div className='flex gap-32 flex-1/2 px-8 items-center'>
                         <h3 className='font-bold text-2xl text-[#252B42]'>Bandage</h3>
                         <div className='flex items-center gap-6'>
-                            <a href=""><img src={homeweb} alt="" /></a>
+                            <a href="" onClick={() => navigate('/')}><img src={homeweb} alt="" /></a>
                             <a href="" onClick={shopToggle}><img src={shopweb} alt="" /></a>
                             <a href=""><img src={aboutweb} alt="" /></a>
                             <a href=""><img src={blogweb} alt="" /></a>
@@ -141,33 +128,15 @@ export default function Header() {
 
                 {visible && (
                     <div className='flex flex-col gap-12 justify-center items-center'>
-                        <a href=""><img src={home} alt="" /></a>
+                        <Link to="/">
+                            <img src={home} alt="Home" />
+                        </Link>
                         <a href=""><img src={product} alt="" /></a>
                         <a href=""><img src={pricing} alt="" /></a>
                         <a href=""><img src={contact} alt="" /></a>
                     </div>
                 )}
-                <div className="relative w-full h-[770px] bg-cover bg-center text-white  flex flex-col justify-center items-center text-center gap-4" style={{ backgroundImage: `url(${banners[currentIndex]})` }}>
-                    <p className=" font-bold uppercase tracking-wide">Summer 2020</p>
-                    <div>
-                        <h2 className="text-4xl font-bold mt-2">NEW</h2>
-                        <h2 className="text-4xl font-bold">COLLECTION</h2>
-                    </div>
 
-                    <div onClick={handlePrev} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-7xl cursor-pointer">
-                        &lt;
-                    </div>
-                    <div onClick={handleNext} className="absolute right-4 top-1/2 transform -translate-y-1/2 text-7xl cursor-pointer">
-                        &gt;
-                    </div>
-
-                    <p className="mt-4 text-m max-w-[280px] text-white">
-                        We know how large objects will act, but things on a small scale.
-                    </p>
-                    <button className=" bg-green-500 text-white font-bold mt-4 px-14 py-3 rounded hover:bg-green-600 transition">
-                        SHOP NOW
-                    </button>
-                </div>
 
             </header>
         </>

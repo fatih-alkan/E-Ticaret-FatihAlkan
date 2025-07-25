@@ -5,10 +5,12 @@ import ShopCard from "../components/ShopCard";
 import Summer from "../components/Summer";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer"
+import HomeBanner from "../components/HomeBanner";
 export default function HomePage() {
     return(
         <>
         <Header/>
+        <HomeBanner/>
         <ShopCard/>
         <ProductCard/>
         <Summer/>
