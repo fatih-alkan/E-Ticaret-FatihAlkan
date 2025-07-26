@@ -48,7 +48,7 @@ export default function Footer() {
                         <h5 className="text-[#252B42] mb-2 font-bold text-[16px]">Get in Touch</h5>
                         <div className="flex">
                         <input placeholder="Your Email" type="text" id="subscribe" name="subscribe" className="bg-[#E6E6E6] text-[#737373] border-2 rounded-sm px-4 border-gray-300"/>
-                        <button for="subscribe" className="bg-[#23A6F0] text-white py-2 px-4 rounded-sm hover:bg-white hover:text-[#23A6F0] hover:border-2">Subscribe</button>
+                        <button htmlFor="subscribe" className="bg-[#23A6F0] text-white py-2 px-4 rounded-sm hover:bg-white hover:text-[#23A6F0] hover:border-2">Subscribe</button>
                         </div>
                         <p className="text-[#737373]">Lorem ipsum dolor sit amet.</p>
                     </div>
