@@ -101,7 +101,7 @@ export default function Header() {
 
                 </div>
                 {shop && (
-                    <div className='absolute bg-white top-41 left-80 flex gap-16 z-10 pl-10 pr-32 pb-8'>
+                    <div className='absolute bg-white top-[134px] left-[550px] flex gap-16 z-10 pl-10 pr-32 pb-8 pt-4'>
                         <div className='flex flex-col gap-6'>
                             <div className='mb-4'>
                                 <a href="" className='text-[#252B42] text-[14px] font-[700]'>Kadın</a>
