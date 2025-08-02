@@ -133,7 +133,7 @@ export default function Header() {
                         </Link>
                         <a href=""><img src={product} alt="" /></a>
                         <a href=""><img src={pricing} alt="" /></a>
-                        <a href=""><img src={contact} alt="" /></a>
+                        <a href="" onClick={() => navigate('/contact')}><img src={contact} alt="" /></a>
                     </div>
                 )}
 
