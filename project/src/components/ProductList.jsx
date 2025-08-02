@@ -17,7 +17,7 @@ import mavi from '../images/product-img/mavi.png'
 import yesil from '../images/product-img/yesil.png'
 import turuncu from '../images/product-img/turuncu.png'
 import koyu from '../images/product-img/koyu.png'
-
+import { useNavigate } from 'react-router-dom';
 const products = [
   product1, product2, product3, product4,
   product5, product6, product7, product8,
@@ -27,20 +27,18 @@ const products = [
 export default function ProductList() {
   const [isMobile, setIsMobile] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Mobil kontrolü
+  const navigate = useNavigate();
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Tailwind 'sm' breakpoint
+      setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // ilk yüklemede çalışsın
-    window.addEventListener('resize', handleResize); // ekran değiştiğinde kontrol et
+    handleResize();
+    window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Gösterilecek ürünleri belirle
-  const productsPerPage = isMobile ? 4 : products.length; // mobilde 4, diğerde hepsi
+  const productsPerPage = isMobile ? 4 : products.length;
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -56,8 +54,9 @@ export default function ProductList() {
           >
             <div className="h-[427px] flex items-center justify-center">
               <img
+                onClick={() => navigate('/productdetail', { state: { productImage } })}
                 src={productImage}
-                className="w-4/5 h-full object-cover"
+                className="w-4/5 h-full object-cover cursor-pointer"
                 alt={`Product ${index + 1}`}
               />
             </div>
@@ -85,45 +84,42 @@ export default function ProductList() {
       </div>
 
       {/* Pagination sadece mobilde */}
-      
-        <div className="flex justify-center h-32">
-          <nav className="inline-flex items-center text-sm">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded border ${
-                currentPage === 1 ? "bg-[#F3F3F3] text-[#BDBDBD]" : "hover:bg-gray-200"
-              }`}
-            >
-              Prev
-            </button>
 
-            {[...Array(totalPages).keys()].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 border rounded ${
-                  currentPage === i + 1
-                    ? "bg-[#23A6F0] text-white"
-                    : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
+      <div className="flex justify-center h-32">
+        <nav className="inline-flex items-center text-sm">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded border ${currentPage === 1 ? "bg-[#F3F3F3] text-[#BDBDBD]" : "hover:bg-gray-200"
+              }`}
+          >
+            Prev
+          </button>
+
+          {[...Array(totalPages).keys()].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-4 py-2 border rounded ${currentPage === i + 1
+                  ? "bg-[#23A6F0] text-white"
+                  : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
                 }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded border ${
-                currentPage === totalPages ? "bg-gray-100 text-gray-400" : "hover:bg-gray-200"
-              }`}
             >
-              Next
+              {i + 1}
             </button>
-          </nav>
-        </div>
-      
+          ))}
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded border ${currentPage === totalPages ? "bg-gray-100 text-gray-400" : "hover:bg-gray-200"
+              }`}
+          >
+            Next
+          </button>
+        </nav>
+      </div>
+
     </>
   );
 }

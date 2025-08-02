@@ -10,10 +10,11 @@ import mavi from '../images/product-img/mavi.png'
 import yesil from '../images/product-img/yesil.png'
 import turuncu from '../images/product-img/turuncu.png'
 import koyu from '../images/product-img/koyu.png'
-
+import { useNavigate } from 'react-router-dom'
 const products = [product1, product2, product3, product4, product5, product6, product7, product8];
 
 export default function ProductCard() {
+  const navigate = useNavigate();
   return (
     <div className="px-4 mt-24">
       {/* Başlık */}
@@ -30,13 +31,15 @@ export default function ProductCard() {
       <div className="flex flex-wrap justify-center gap-6 max-w-[1124px] m-auto">
         {products.map((productImage, index) => (
           <div
+
             key={index}
             className="w-full sm:w-[48%] lg:w-[23%] bg-white"
           >
             <div className="h-[427px] flex items-center justify-center">
               <img
+                onClick={() => navigate('/productdetail', { state: { productImage } })}
                 src={productImage}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
                 alt={`Product ${index + 1}`}
               />
             </div>

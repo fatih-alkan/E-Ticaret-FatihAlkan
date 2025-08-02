@@ -82,7 +82,7 @@ export default function Header() {
                             <a href="" onClick={shopToggle}><img src={shopweb} alt="" /></a>
                             <a href=""><img src={aboutweb} alt="" /></a>
                             <a href=""><img src={blogweb} alt="" /></a>
-                            <a href=""><img src={contactweb} alt="" /></a>
+                            <a href="" onClick={() => navigate('/contact')}><img src={contactweb} alt="" /></a>
                             <a href=""><img src={pagesweb} alt="" /></a>
                         </div>
                     </div>

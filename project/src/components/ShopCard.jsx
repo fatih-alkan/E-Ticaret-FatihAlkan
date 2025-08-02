@@ -2,7 +2,6 @@ import men from '../images/shopping-img/men.jpg';
 import women from '../images/shopping-img/women.jpg';
 import kids from '../images/shopping-img/kids.jpg';
 import accessories from '../images/shopping-img/accessories.jpg';
-
 export default function ShopCard() {
   return (
     <div className="px-8 py-10">
