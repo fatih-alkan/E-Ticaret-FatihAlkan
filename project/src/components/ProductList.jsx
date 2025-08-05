@@ -1,23 +1,24 @@
-import { useState, useEffect } from 'react';
-
-import product1 from '../images/product-img/product1.jpg'
-import product2 from '../images/product-img/product2.jpg'
-import product3 from '../images/product-img/product3.jpg'
-import product4 from '../images/product-img/product4.jpg'
-import product5 from '../images/product-img/product5.jpg'
-import product6 from '../images/product-img/product6.jpg'
-import product7 from '../images/product-img/product7.jpg'
-import product8 from '../images/product-img/product8.jpg'
-import product9 from '../images/product-img/product9.jpg'
-import product10 from '../images/product-img/product10.jpg'
-import product11 from '../images/product-img/product11.jpg'
-import product12 from '../images/product-img/product12.jpg'
-
-import mavi from '../images/product-img/mavi.png'
-import yesil from '../images/product-img/yesil.png'
-import turuncu from '../images/product-img/turuncu.png'
-import koyu from '../images/product-img/koyu.png'
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import product1 from '../images/product-img/product1.jpg';
+import product2 from '../images/product-img/product2.jpg';
+import product3 from '../images/product-img/product3.jpg';
+import product4 from '../images/product-img/product4.jpg';
+import product5 from '../images/product-img/product5.jpg';
+import product6 from '../images/product-img/product6.jpg';
+import product7 from '../images/product-img/product7.jpg';
+import product8 from '../images/product-img/product8.jpg';
+import product9 from '../images/product-img/product9.jpg';
+import product10 from '../images/product-img/product10.jpg';
+import product11 from '../images/product-img/product11.jpg';
+import product12 from '../images/product-img/product12.jpg';
+
+import mavi from '../images/product-img/mavi.png';
+import yesil from '../images/product-img/yesil.png';
+import turuncu from '../images/product-img/turuncu.png';
+import koyu from '../images/product-img/koyu.png';
+
 const products = [
   product1, product2, product3, product4,
   product5, product6, product7, product8,
@@ -28,6 +29,9 @@ export default function ProductList() {
   const [isMobile, setIsMobile] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  const productSectionRef = useRef(null); // 🔵 Scroll atılacak bölüm
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -35,8 +39,14 @@ export default function ProductList() {
 
     handleResize();
     window.addEventListener('resize', handleResize);
+
+    // 🔵 Scroll işlemi
+    if (productSectionRef.current) {
+      productSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [currentPage]);
 
   const productsPerPage = isMobile ? 4 : products.length;
   const totalPages = Math.ceil(products.length / productsPerPage);
@@ -46,7 +56,11 @@ export default function ProductList() {
 
   return (
     <>
-      <div className="flex flex-wrap justify-between max-w-[1124px] mx-auto">
+      {/* 🔵 Scroll'un hedefi */}
+      <div
+        ref={productSectionRef}
+        className="flex flex-wrap justify-between max-w-[1124px] mx-auto"
+      >
         {currentProducts.map((productImage, index) => (
           <div
             key={index}
@@ -54,7 +68,9 @@ export default function ProductList() {
           >
             <div className="h-[427px] flex items-center justify-center">
               <img
-                onClick={() => navigate('/productdetail', { state: { productImage } })}
+                onClick={() =>
+                  navigate('/productdetail', { state: { productImage } })
+                }
                 src={productImage}
                 className="w-4/5 h-full object-cover cursor-pointer"
                 alt={`Product ${index + 1}`}
@@ -72,10 +88,10 @@ export default function ProductList() {
                   <span className="font-bold text-[#23856D]">$6.48</span>
                 </div>
                 <div className="flex gap-1 h-8">
-                  <a href=""><img src={mavi} alt="mavi" /></a>
-                  <a href=""><img src={yesil} alt="yesil" /></a>
-                  <a href=""><img src={turuncu} alt="turuncu" /></a>
-                  <a href=""><img src={koyu} alt="koyu" /></a>
+                  <a href="#"><img src={mavi} alt="mavi" /></a>
+                  <a href="#"><img src={yesil} alt="yesil" /></a>
+                  <a href="#"><img src={turuncu} alt="turuncu" /></a>
+                  <a href="#"><img src={koyu} alt="koyu" /></a>
                 </div>
               </div>
             </div>
@@ -83,8 +99,7 @@ export default function ProductList() {
         ))}
       </div>
 
-      {/* Pagination sadece mobilde */}
-
+      {/* 🔵 Mobilde sayfalama kontrolü */}
       <div className="flex justify-center h-32">
         <nav className="inline-flex items-center text-sm">
           <button
@@ -101,8 +116,8 @@ export default function ProductList() {
               key={i}
               onClick={() => setCurrentPage(i + 1)}
               className={`px-4 py-2 border rounded ${currentPage === i + 1
-                  ? "bg-[#23A6F0] text-white"
-                  : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
+                ? "bg-[#23A6F0] text-white"
+                : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
                 }`}
             >
               {i + 1}
@@ -119,7 +134,6 @@ export default function ProductList() {
           </button>
         </nav>
       </div>
-
     </>
   );
 }
