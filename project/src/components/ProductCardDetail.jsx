@@ -63,7 +63,7 @@ export default function ProductCardDetail({ image }) {
       <div className='flex flex-col max-w-80 bg-gray-300 p-8 gap-8 max-h-108 max-[768px]:mx-auto'>
         <div className="flex-col gap-2 flex text-center">
           <h2 className="text-xl font-bold text-gray-800">Graphic Design</h2>
-          <p className="text-gray-600">English Department</p>
+          <p className="text-gray-700">English Department</p>
         </div>
         <p className='text-gray-600 text-center'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur ratione repudiandae asperiores quam perspiciatis excepturi impedit non sint quisquam cumque.
@@ -72,7 +72,7 @@ export default function ProductCardDetail({ image }) {
           <span className="font-bold text-[#BDBDBD]">$16.48</span>
           <span className="font-bold text-[#23856D]">$6.48</span>
         </div>
-        <button className='bg-[#252B42] text-white py-2 px-6 rounded-xl cursor-pointer'>Add to Cart</button>
+        <button className='bg-[#252B42] text-white py-2 px-6 rounded-xl cursor-pointer hover:bg-white hover:text-[#252B42] hover:border-2'>Add to Cart</button>
       </div>
     </div>
   );

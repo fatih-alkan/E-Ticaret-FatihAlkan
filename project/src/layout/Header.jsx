@@ -24,11 +24,13 @@ import searchweb from '../images/header-img/searchweb.png'
 import shoppingcardweb from '../images/header-img/shoppingcardweb.png'
 import likesweb from '../images/header-img/likesweb.png'
 import { useNavigate, Link } from 'react-router-dom';
+import { FaLink } from 'react-icons/fa';
 
 export default function Header() {
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const [shop, setShop] = useState(false);
+    const [pages, setPages] = useState(false);
 
     const handleToggle = (e) => {
         e.preventDefault();
@@ -37,6 +39,12 @@ export default function Header() {
     const shopToggle = (e) => {
         e.preventDefault();
         setShop((prev) => !prev);
+        setPages(false);
+    }
+    const pagesToggle = (e) => {
+        e.preventDefault();
+        setPages((prev) => !prev);
+        setShop(false);
     }
     return (
         <>
@@ -64,7 +72,7 @@ export default function Header() {
                     </div>
                 </div>
                 {/*mobil */}
-                <div className='flex justify-around pt-4 md:hidden'>
+                <div className='flex justify-around pt-4 pb-4 md:hidden'>
                     <h3 className='font-bold text-2xl text-[#252B42] '>Bandage</h3>
                     <div className='flex items-center gap-6'>
                         <a href=""><img src={profile} alt="" /></a>
@@ -76,14 +84,14 @@ export default function Header() {
                 {/*web */}
                 <div className='hidden md:flex justify-around max-w-[1042px] mx-auto gap-16'>
                     <div className='flex gap-32 flex-1/2 px-8 items-center'>
-                        <h3 className='font-bold text-2xl text-[#252B42]'>Bandage</h3>
+                        <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
                         <div className='flex items-center gap-6'>
                             <a href="" onClick={() => navigate('/')}><img src={homeweb} alt="" /></a>
                             <a href="" onClick={shopToggle}><img src={shopweb} alt="" /></a>
-                            <a href=""><img src={aboutweb} alt="" /></a>
+                            <a href="" onClick={() => navigate('/about')}><img src={aboutweb} alt="" /></a>
                             <a href=""><img src={blogweb} alt="" /></a>
                             <a href="" onClick={() => navigate('/contact')}><img src={contactweb} alt="" /></a>
-                            <a href=""><img src={pagesweb} alt="" /></a>
+                            <a href="" onClick={pagesToggle}><img src={pagesweb} alt="" /></a>
                         </div>
                     </div>
 
@@ -125,15 +133,33 @@ export default function Header() {
                     </div>
                 )}
 
-
+                {pages && (
+                    <div className='absolute bg-gray-100 top-[134px] left-[810px] flex gap-16 z-10 pl-4 pr-16 pb-6 pt-4 rounded-xl'>
+                        <div className='flex flex-col gap-6'>
+                            <a href="" onClick={() => navigate('/')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/> Home Page</a>
+                            <a href="" onClick={() => navigate('/shop')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/>Shop Page</a>
+                            <a href="" onClick={() => navigate('/about')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/>About Us</a>
+                            <a href="" className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/>Blog</a>
+                            <a href="" onClick={() => navigate('/contact')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/>Contact</a>
+                            <a href="" onClick={() => navigate('/team')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink/>Our Team</a>
+                        </div>
+                    </div>
+                )}
                 {visible && (
-                    <div className='flex flex-col gap-12 justify-center items-center'>
+                    <div className='flex flex-col gap-8 justify-center items-center pb-8'>
                         <Link to="/">
-                            <img src={home} alt="Home" />
+                        <h3 className='text-gray-500 text-[28px] font-semibold'>Home</h3>
                         </Link>
-                        <a href=""><img src={product} alt="" /></a>
-                        <a href=""><img src={pricing} alt="" /></a>
-                        <a href="" onClick={() => navigate('/contact')}><img src={contact} alt="" /></a>
+                        <Link to="/shop">
+                        <h3 className='text-gray-500 text-[28px] font-semibold'>Product</h3>
+                        </Link>
+                        <Link to="/team">
+                        <h3 className='text-gray-500 text-[28px] font-semibold'>Our Team</h3>
+                        </Link>
+                        <a href="" onClick={() => navigate('/contact')}>
+                        <h3 className='text-gray-500 text-[28px] font-semibold'>Contact</h3>
+
+                            </a>
                     </div>
                 )}
 

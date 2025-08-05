@@ -39,7 +39,8 @@ export default function Contact() {
                     </div>
                 </div>
                 <div className='absolute bg-gray-700 h-80 w-100 left-[665px] top-[100px]'>
-                    <div className='flex flex-col gap-8 pl-8 pt-10'>
+                    <div className='relative flex flex-col gap-8 pl-8 pt-10'>
+                        <div className='h-10 w-10 absolute bg-[#23A6F0] top-0 left-0 rounded-br-[10px]'></div>
                         <h3 className='font-bold text-white text-3xl'>Info</h3>
                         <div className='flex flex-col gap-4'>
 
@@ -87,7 +88,8 @@ export default function Contact() {
                         </form>
                     </div>
                 </div>
-                <div className=' bg-gray-700 h-70 w-70 rounded-xl m-auto'>
+                <div className='relative bg-gray-700 h-70 w-70 rounded-xl m-auto'>
+                    <div className='h-10 w-10 absolute top-0 right-0 bg-[#23A6F0] rounded-bl-[10px]'></div>
                     <div className='flex flex-col gap-8 pl-8 pt-6 '>
                         <h3 className='font-bold text-white text-3xl'>Info</h3>
                         <div className='flex flex-col gap-4'>
