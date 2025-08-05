@@ -73,7 +73,7 @@ export default function Header() {
                 </div>
                 {/*mobil */}
                 <div className='flex justify-around pt-4 pb-4 md:hidden'>
-                    <h3 className='font-bold text-2xl text-[#252B42] '>Bandage</h3>
+                    <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
                     <div className='flex items-center gap-6'>
                         <a href=""><img src={profile} alt="" /></a>
                         <a href=""><img src={search} alt="" /></a>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import product1 from '../images/product-img/product1.jpg';
 import product2 from '../images/product-img/product2.jpg';
@@ -28,25 +28,28 @@ const products = [
 export default function ProductList() {
   const [isMobile, setIsMobile] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const productSectionRef = useRef(null);
+  const location = useLocation();
   const navigate = useNavigate();
-
-  const productSectionRef = useRef(null); // 🔵 Scroll atılacak bölüm
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    // 🔵 Scroll işlemi
+  useEffect(() => {
     if (productSectionRef.current) {
       productSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-
-    return () => window.removeEventListener('resize', handleResize);
   }, [currentPage]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [location.pathname]);
 
   const productsPerPage = isMobile ? 4 : products.length;
   const totalPages = Math.ceil(products.length / productsPerPage);
@@ -56,7 +59,6 @@ export default function ProductList() {
 
   return (
     <>
-      {/* 🔵 Scroll'un hedefi */}
       <div
         ref={productSectionRef}
         className="flex flex-wrap justify-between max-w-[1124px] mx-auto"
@@ -99,7 +101,6 @@ export default function ProductList() {
         ))}
       </div>
 
-      {/* 🔵 Mobilde sayfalama kontrolü */}
       <div className="flex justify-center h-32">
         <nav className="inline-flex items-center text-sm">
           <button
