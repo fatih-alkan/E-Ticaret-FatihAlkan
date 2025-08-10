@@ -98,7 +98,9 @@ export default function Header() {
                     <div className='flex gap-8'>
                         <div className='flex gap-4 items-center'>
                             <img src={profileweb} alt="" />
-                            <a href="" className='font-[700] text-[14px] text-[#23A6F0]'>Login / Register</a>
+                            <a href="" onClick={() => navigate('/signup')} className='font-[700] text-[14px] text-[#23A6F0]'>Login</a>
+                            <p className='text-[#23A6F0] font-[700] text-[14px]'>/</p>
+                            <a href="" onClick={() => navigate('/signup')} className='font-[700] text-[14px] text-[#23A6F0]'>Register</a>
                         </div>
                         <div className='flex'>
                             <a href=""><img src={searchweb} alt="" /></a>
@@ -156,10 +158,22 @@ export default function Header() {
                         <Link to="/team">
                         <h3 className='text-gray-500 text-[28px] font-semibold'>Our Team</h3>
                         </Link>
+                        <a href="" onClick={() => navigate('/about')}>
+                        <h3 className='text-gray-500 text-[28px] font-semibold'>About Us</h3>
+                        </a>
                         <a href="" onClick={() => navigate('/contact')}>
                         <h3 className='text-gray-500 text-[28px] font-semibold'>Contact</h3>
-
-                            </a>
+                        </a>
+                        <div className='flex items-center gap-2'>
+                            <a href="" onClick={() => navigate('/signup')}>
+                        <h3 className='bg-[#23A6F0] text-white text-[28px] font-semibold py-2 px-4 rounded-2xl hover:text-[#23A6F0] hover:bg-white hover:border-2'>Login</h3>
+                        </a>
+                        <p className='text-3xl text-[#23A6F0]'>/</p>
+                        <a href="" onClick={() => navigate('/signup')}>
+                        <h3 className='bg-[#23A6F0] text-white text-[28px] font-semibold py-2 px-4 rounded-2xl hover:text-[#23A6F0] hover:bg-white hover:border-2'>Register</h3>
+                        </a>
+                        </div>
+                        
                     </div>
                 )}
 
