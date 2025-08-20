@@ -7,7 +7,7 @@ export default function ProductList({ sort, filter }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { categoryId } = useParams(); 
+  const { categoryId } = useParams();
   const productSectionRef = useRef(null);
 
   const { productList, total, fetchState, limit } = useSelector(
@@ -76,44 +76,50 @@ export default function ProductList({ sort, filter }) {
         ref={productSectionRef}
         className="flex flex-wrap justify-between max-w-[1224px] mx-auto"
       >
-        {productList.map((product) => (
-          <div
-            key={product.id}
-            className="w-full sm:w-[48%] lg:w-[23%] bg-white mb-6"
-          >
-            <div className="h-[300px] flex items-center justify-center">
-              <img
-                onClick={() =>
-                  navigate(`/productdetail/${product.id}`, {
-                    state: { product },
-                  })
-                }
-                src={product.thumbnail}
-                className="w-4/5 h-full object-cover cursor-pointer rounded"
-                alt={product.title}
-              />
-            </div>
+        {productList.map((product) => {
+          const productNameSlug = (product.title || product.name)
+            .replace(/\s+/g, "-")
+            .toLowerCase();
 
-            <div className="p-6">
-              <div className="flex flex-col justify-between items-center gap-3">
-                <div className="flex-col gap-2 flex text-center">
-                  <h2 className="text-lg font-bold text-gray-800">
-                    {product.title}
-                  </h2>
-                  <p className="text-gray-600">{product.category}</p>
-                </div>
-                <div className="flex justify-center text-center gap-2">
-                  <span className="font-bold text-[#BDBDBD] line-through">
-                    ${product.price + 20}
-                  </span>
-                  <span className="font-bold text-[#23856D]">
-                    ${product.price}
-                  </span>
+          return (
+            <div
+              key={product.id}
+              className="w-full sm:w-[48%] lg:w-[23%] bg-white mb-6 cursor-pointer transform transition hover:scale-105 hover:shadow-lg rounded-lg"
+              onClick={() =>
+                navigate(
+                  `/shop/${product.gender || "unisex"}/${product.category || "genel"}/${product.categoryId || categoryId}/${productNameSlug}/${product.id}`
+                )
+              }
+            >
+              <div className="h-[300px] flex items-center justify-center">
+                <img
+                  src={product.thumbnail || product.images?.[0]?.url}
+                  className="w-4/5 h-full object-cover rounded"
+                  alt={product.title || product.name}
+                />
+              </div>
+
+              <div className="p-6">
+                <div className="flex flex-col justify-between items-center gap-3">
+                  <div className="flex-col gap-2 flex text-center">
+                    <h2 className="text-lg font-bold text-gray-800">
+                      {product.title || product.name}
+                    </h2>
+                    <p className="text-gray-600">{product.category}</p>
+                  </div>
+                  <div className="flex justify-center text-center gap-2">
+                    <span className="font-bold text-[#BDBDBD] line-through">
+                      ${product.price + 20}
+                    </span>
+                    <span className="font-bold text-[#23856D]">
+                      ${product.price}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Pagination */}

@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import TeamPage from './pages/TeamPage';
 import AboutPage from './pages/AboutPage';
 import Signup from './pages/SignupPage';
+import ShoppingCart from './pages/ShoppingCartPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/LoginPage';
@@ -49,12 +50,17 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
-        <Route path="/productdetail" element={<ProductDetail />} />
+        <Route
+          path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"
+          element={<ProductDetail />}
+        />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/team" element={<TeamPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/shoppingcard" element={<ShoppingCart/>} />
+
       </Routes>
 
       <ToastContainer

@@ -25,7 +25,8 @@ export default function Header() {
     const [pages, setPages] = useState(false);
     const dispatch = useDispatch();
     const { list: categories } = useSelector((state) => state.categories);
-
+    const cart = useSelector((state) => state.shoppingCart.cart);
+    const totalCount = cart.reduce((sum, item) => sum + item.count, 0);
     useEffect(() => {
         if (categories.length === 0) {
             dispatch(fetchCategories());
@@ -96,7 +97,23 @@ export default function Header() {
                             </>
                         )}
                         <a href=""><img src={search} alt="" /></a>
-                        <a href=""><img src={shoppingCard} alt="" /></a>
+                        <div onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/shoppingcard");
+                            }} className="relative cursor-pointer">
+                                <a
+
+                                    className="text-gray-700 hover:opacity-80"
+                                >
+                                    <FaShoppingCart size={25} />
+                                </a>
+
+                                {totalCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                        {totalCount}
+                                    </span>
+                                )}
+                            </div>
                         <a href="" onClick={handleToggle}><img src={menu} alt="" /></a>
                     </div>
                 </div>
@@ -106,7 +123,7 @@ export default function Header() {
                         <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
                         <div className='flex items-center gap-6'>
                             <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/')}>Home</a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold flex hover:border-b-2 items-center gap-2' onClick={shopToggle}>Shop <FaChevronDown/></a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold flex hover:border-b-2 items-center gap-2' onClick={shopToggle}>Shop <FaChevronDown /></a>
                             <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/about')}>About</a>
                             <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2'>Blog</a>
                             <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/contact')}>Contact</a>
@@ -139,9 +156,25 @@ export default function Header() {
                         </div>
 
                         <div className='flex gap-8 items-center'>
-                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch/></a>
-                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaShoppingCart/></a>
-                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaHeart/></a>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch /></a>
+                            <div onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/shoppingcard");
+                            }} className="relative cursor-pointer">
+                                <a
+
+                                    className="text-[#23A6F0] hover:opacity-80"
+                                >
+                                    <FaShoppingCart size={20} />
+                                </a>
+
+                                {totalCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                        {totalCount}
+                                    </span>
+                                )}
+                            </div>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaHeart /></a>
                         </div>
                     </div>
 

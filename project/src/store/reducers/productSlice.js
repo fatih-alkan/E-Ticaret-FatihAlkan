@@ -31,8 +31,8 @@ export const fetchProducts =
     try {
       dispatch(setFetchState("FETCHING"));
       let url = category
-        ? `https://dummyjson.com/products/category/${category}?limit=${limit}&offset=${offset}`
-        : `https://dummyjson.com/products?limit=${limit}&offset=${offset}`;
+      ? `https://dummyjson.com/products/category/${category}?limit=${limit}&skip=${offset}`
+      : `https://dummyjson.com/products?limit=${limit}&skip=${offset}`;
 
       const res = await fetch(url);
       if (!res.ok) throw new Error("API hatası");

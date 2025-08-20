@@ -8,7 +8,7 @@ const featuredImages = [featured1, featured2, featured3];
 export default function FeaturedProducts() {
     return (
         <>
-            <div className="flex flex-col items-center h-[2100px] w-full md:max-h-[900px]">
+            <div className="flex flex-col items-center h-[2100px] w-full md:max-h-[900px] mt-16">
                 <div className="flex flex-col items-center h-[184px] gap-2 mb-10">
                     <h6 className="text-[#23A6F0]">Practice Advice</h6>
                     <div>
