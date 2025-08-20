@@ -1,20 +1,25 @@
-// src/store/reducers/clientSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
-// --- Login Thunk ---
 export const loginUser = createAsyncThunk(
   "client/loginUser",
   async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.post("/login", { email, password });
 
-      // rememberMe seçiliyse token'ı localStorage'a kaydet
+      const { token, ...userData } = res.data;
+
       if (rememberMe) {
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+      } else {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("user", JSON.stringify(userData));
       }
 
-      return res.data; // user + token
+      axiosInstance.defaults.headers.Authorization = token;
+
+      return { token, user: userData };
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Login failed");
     }
@@ -33,9 +38,13 @@ export const fetchRoles = createAsyncThunk(
   }
 );
 
-// --- LocalStorage'dan kullanıcı bilgisi yükle ---
+const savedUser =
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(sessionStorage.getItem("user")) ||
+  null;
+
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null,
+  user: savedUser,
   addressList: [],
   creditCards: [],
   roles: [],
@@ -67,6 +76,9 @@ const clientSlice = createSlice({
       state.user = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      delete axiosInstance.defaults.headers.Authorization;
     },
   },
   extraReducers: (builder) => {
@@ -91,18 +103,7 @@ const clientSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loginStatus = "succeeded";
-        
-        const userData = {
-          name: action.payload.name,
-          email: action.payload.email,
-          role_id: action.payload.role_id,
-        };
-        
-        state.user = userData;
-
-        // LocalStorage'a kaydet
-        localStorage.setItem("token", action.payload.token);
-        localStorage.setItem("user", JSON.stringify(userData));
+        state.user = action.payload.user;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = "failed";
@@ -111,5 +112,6 @@ const clientSlice = createSlice({
   },
 });
 
-export const { setUser, setRoles, setTheme, setLanguage, logout } = clientSlice.actions;
+export const { setUser, setRoles, setTheme, setLanguage, logout } =
+  clientSlice.actions;
 export default clientSlice.reducer;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -12,12 +12,40 @@ import Signup from './pages/SignupPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/LoginPage';
+import { useDispatch } from 'react-redux';
+import { setUser, logout } from './store/reducers/clientSlice';
+import axiosInstance from './api/axiosInstance';
+
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+
+    if (token) {
+      axiosInstance.defaults.headers.Authorization = token;
+
+      axiosInstance
+        .get("/verify")
+        .then((res) => {
+          dispatch(setUser(res.data.user || res.data));
+
+          if (res.data.token) {
+            localStorage.setItem("token", res.data.token);
+            axiosInstance.defaults.headers.Authorization = res.data.token;
+          }
+        })
+        .catch(() => {
+          dispatch(logout());
+        });
+    }
+  }, [dispatch]);
+
 
   return (
     <Router>
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
@@ -39,7 +67,7 @@ function App() {
         draggable
       />
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

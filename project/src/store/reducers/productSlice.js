@@ -1,12 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  categories: [],
   productList: [],
   total: 0,
-  limit: 25,
-  offset: 0,
-  filter: "",
+  limit: 24, 
   fetchState: "NOT_FETCHED",
 };
 
@@ -14,9 +11,6 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setCategories: (state, action) => {
-      state.categories = action.payload;
-    },
     setProductList: (state, action) => {
       state.productList = action.payload;
     },
@@ -26,26 +20,49 @@ const productSlice = createSlice({
     setFetchState: (state, action) => {
       state.fetchState = action.payload;
     },
-    setLimit: (state, action) => {
-      state.limit = action.payload;
-    },
-    setOffset: (state, action) => {
-      state.offset = action.payload;
-    },
-    setFilter: (state, action) => {
-      state.filter = action.payload;
-    },
   },
 });
 
-export const {
-  setCategories,
-  setProductList,
-  setTotal,
-  setFetchState,
-  setLimit,
-  setOffset,
-  setFilter,
-} = productSlice.actions;
+export const { setProductList, setTotal, setFetchState } = productSlice.actions;
+
+export const fetchProducts =
+  ({ limit, offset, category, sort, filter }) =>
+  async (dispatch) => {
+    try {
+      dispatch(setFetchState("FETCHING"));
+      let url = category
+        ? `https://dummyjson.com/products/category/${category}?limit=${limit}&offset=${offset}`
+        : `https://dummyjson.com/products?limit=${limit}&offset=${offset}`;
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("API hatası");
+
+      const data = await res.json();
+      let products = data.products || [];
+
+      if (filter) {
+        products = products.filter((p) =>
+          p.title.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+
+      if (sort) {
+        const [field, order] = sort.split(":");
+        products = [...products].sort((a, b) => {
+          if (field === "price" || field === "rating") {
+            return order === "asc" ? a[field] - b[field] : b[field] - a[field];
+          } else {
+            return 0;
+          }
+        });
+      }
+
+      dispatch(setProductList(products));
+      dispatch(setTotal(data.total)); // backend total
+      dispatch(setFetchState("FETCHED"));
+    } catch (err) {
+      dispatch(setFetchState("FAILED"));
+    }
+  };
 
 export default productSlice.reducer;

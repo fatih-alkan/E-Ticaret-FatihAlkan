@@ -4,15 +4,25 @@ import Filter from "../components/Filter";
 import ProductList from "../components/ProductList";
 import Brands from "../components/Brands";
 import Footer from "../layout/Footer";
-export default function ShopPage(){
-    return (
-        <>
-        <Header/>
-        <ShopHeader/>
-        <Filter/>
-        <ProductList/>
-        <Brands/>
-        <Footer/>
-        </>
-    )
+import { useState } from "react";
+
+export default function ShopPage() {
+  const [sort, setSort] = useState("");
+  const [filter, setFilter] = useState("");
+
+  return (
+    <>
+      <Header />
+      <ShopHeader />
+      <Filter 
+        sort={sort} 
+        setSort={setSort} 
+        filter={filter} 
+        setFilter={setFilter} 
+      />
+      <ProductList sort={sort} filter={filter} />
+      <Brands />
+      <Footer />
+    </>
+  );
 }

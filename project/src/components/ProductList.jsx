@@ -1,99 +1,114 @@
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { fetchProducts } from "../store/reducers/productSlice";
 
-import product1 from '../images/product-img/product1.jpg';
-import product2 from '../images/product-img/product2.jpg';
-import product3 from '../images/product-img/product3.jpg';
-import product4 from '../images/product-img/product4.jpg';
-import product5 from '../images/product-img/product5.jpg';
-import product6 from '../images/product-img/product6.jpg';
-import product7 from '../images/product-img/product7.jpg';
-import product8 from '../images/product-img/product8.jpg';
-import product9 from '../images/product-img/product9.jpg';
-import product10 from '../images/product-img/product10.jpg';
-import product11 from '../images/product-img/product11.jpg';
-import product12 from '../images/product-img/product12.jpg';
-
-import mavi from '../images/product-img/mavi.png';
-import yesil from '../images/product-img/yesil.png';
-import turuncu from '../images/product-img/turuncu.png';
-import koyu from '../images/product-img/koyu.png';
-
-const products = [
-  product1, product2, product3, product4,
-  product5, product6, product7, product8,
-  product9, product10, product11, product12
-];
-
-export default function ProductList() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productSectionRef = useRef(null);
-  const location = useLocation();
+export default function ProductList({ sort, filter }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { categoryId } = useParams(); 
+  const productSectionRef = useRef(null);
+
+  const { productList, total, fetchState, limit } = useSelector(
+    (state) => state.product
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    const offset = (currentPage - 1) * limit;
+    dispatch(fetchProducts({ limit, offset, sort, filter, category: categoryId }));
+  }, [dispatch, currentPage, limit, sort, filter, categoryId]);
 
   useEffect(() => {
     if (productSectionRef.current) {
-      productSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      productSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [currentPage]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname]);
 
-  const productsPerPage = isMobile ? 4 : products.length;
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  const totalPages = Math.ceil(total / limit);
+  const visiblePages = 5;
 
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const currentProducts = products.slice(startIndex, startIndex + productsPerPage);
+  const getPageNumbers = () => {
+    let pages = [];
+    if (totalPages <= visiblePages) {
+      pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    } else {
+      let startPage = Math.max(2, currentPage - 1);
+      let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      pages = [1];
+      if (startPage > 2) pages.push("...");
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+      if (endPage < totalPages - 1) pages.push("...");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
+  if (fetchState === "FETCHING") {
+    return (
+      <div className="flex justify-center items-center h-[400px]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#23A6F0] border-solid"></div>
+      </div>
+    );
+  }
+
+  if (fetchState === "FAILED") {
+    return (
+      <div className="text-center text-red-600 py-10">
+        Ürünler yüklenirken hata oluştu!
+      </div>
+    );
+  }
 
   return (
     <>
+      {/* Ürünler */}
       <div
         ref={productSectionRef}
-        className="flex flex-wrap justify-between max-w-[1124px] mx-auto"
+        className="flex flex-wrap justify-between max-w-[1224px] mx-auto"
       >
-        {currentProducts.map((productImage, index) => (
+        {productList.map((product) => (
           <div
-            key={index}
+            key={product.id}
             className="w-full sm:w-[48%] lg:w-[23%] bg-white mb-6"
           >
-            <div className="h-[427px] flex items-center justify-center">
+            <div className="h-[300px] flex items-center justify-center">
               <img
                 onClick={() =>
-                  navigate('/productdetail', { state: { productImage } })
+                  navigate(`/productdetail/${product.id}`, {
+                    state: { product },
+                  })
                 }
-                src={productImage}
-                className="w-4/5 h-full object-cover cursor-pointer"
-                alt={`Product ${index + 1}`}
+                src={product.thumbnail}
+                className="w-4/5 h-full object-cover cursor-pointer rounded"
+                alt={product.title}
               />
             </div>
 
             <div className="p-6">
               <div className="flex flex-col justify-between items-center gap-3">
                 <div className="flex-col gap-2 flex text-center">
-                  <h2 className="text-xl font-bold text-gray-800">Graphic Design</h2>
-                  <p className="text-gray-600">English Department</p>
+                  <h2 className="text-lg font-bold text-gray-800">
+                    {product.title}
+                  </h2>
+                  <p className="text-gray-600">{product.category}</p>
                 </div>
                 <div className="flex justify-center text-center gap-2">
-                  <span className="font-bold text-[#BDBDBD]">$16.48</span>
-                  <span className="font-bold text-[#23856D]">$6.48</span>
-                </div>
-                <div className="flex gap-1 h-8">
-                  <a href="#"><img src={mavi} alt="mavi" /></a>
-                  <a href="#"><img src={yesil} alt="yesil" /></a>
-                  <a href="#"><img src={turuncu} alt="turuncu" /></a>
-                  <a href="#"><img src={koyu} alt="koyu" /></a>
+                  <span className="font-bold text-[#BDBDBD] line-through">
+                    ${product.price + 20}
+                  </span>
+                  <span className="font-bold text-[#23856D]">
+                    ${product.price}
+                  </span>
                 </div>
               </div>
             </div>
@@ -101,35 +116,51 @@ export default function ProductList() {
         ))}
       </div>
 
+      {/* Pagination */}
       <div className="flex justify-center h-32">
         <nav className="inline-flex items-center text-sm">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded border ${currentPage === 1 ? "bg-[#F3F3F3] text-[#BDBDBD]" : "hover:bg-gray-200"
-              }`}
+            className={`px-4 py-2 rounded border ${
+              currentPage === 1
+                ? "bg-[#F3F3F3] text-[#BDBDBD]"
+                : "hover:bg-gray-200"
+            }`}
           >
             Prev
           </button>
 
-          {[...Array(totalPages).keys()].map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 border rounded ${currentPage === i + 1
-                ? "bg-[#23A6F0] text-white"
-                : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
+          {getPageNumbers().map((page, i) =>
+            page === "..." ? (
+              <span key={`ellipsis-${i}`} className="px-4 py-2">
+                ...
+              </span>
+            ) : (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`px-4 py-2 border rounded ${
+                  currentPage === page
+                    ? "bg-[#23A6F0] text-white"
+                    : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
                 }`}
-            >
-              {i + 1}
-            </button>
-          ))}
+              >
+                {page}
+              </button>
+            )
+          )}
 
           <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded border ${currentPage === totalPages ? "bg-gray-100 text-gray-400" : "hover:bg-gray-200"
-              }`}
+            className={`px-4 py-2 rounded border ${
+              currentPage === totalPages
+                ? "bg-gray-100 text-gray-400"
+                : "hover:bg-gray-200"
+            }`}
           >
             Next
           </button>

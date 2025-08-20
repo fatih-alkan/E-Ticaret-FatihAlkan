@@ -3,31 +3,20 @@ import profile from '../images/header-img/profile.png'
 import search from '../images/header-img/search.png'
 import shoppingCard from '../images/header-img/shopping-card.png'
 import menu from '../images/header-img/menu.png'
-import contact from '../images/header-img/contact.png'
-import home from '../images/header-img/home.png'
-import pricing from '../images/header-img/pricing.png'
-import product from '../images/header-img/product.png'
 import phone from '../images/header-img/phone.png'
 import message from '../images/header-img/message.png'
 import insta from '../images/header-img/insta.png'
 import face from '../images/header-img/face.png'
 import youtube from '../images/header-img/youtube.png'
 import twitter from '../images/header-img/twitter.png'
-import homeweb from '../images/header-img/homeweb.png'
-import shopweb from '../images/header-img/shopweb.png'
-import aboutweb from '../images/header-img/aboutweb.png'
-import contactweb from '../images/header-img/contactweb.png'
-import blogweb from '../images/header-img/blogweb.png'
-import pagesweb from '../images/header-img/pagesweb.png'
-import profileweb from '../images/header-img/profileweb.png'
-import searchweb from '../images/header-img/searchweb.png'
-import shoppingcardweb from '../images/header-img/shoppingcardweb.png'
-import likesweb from '../images/header-img/likesweb.png'
 import { useNavigate, Link } from 'react-router-dom';
-import { FaLink } from 'react-icons/fa';
+import { FaChevronDown, FaHeart, FaLink, FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/reducers/clientSlice";
 import md5 from 'blueimp-md5';
+import { fetchCategories } from "../store/reducers/categorySlice";
+import { useEffect } from "react";
+
 export default function Header() {
     const { user } = useSelector((state) => state.client);
     const navigate = useNavigate();
@@ -35,6 +24,17 @@ export default function Header() {
     const [shop, setShop] = useState(false);
     const [pages, setPages] = useState(false);
     const dispatch = useDispatch();
+    const { list: categories } = useSelector((state) => state.categories);
+
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(fetchCategories());
+        }
+    }, [categories, dispatch]);
+    useEffect(() => {
+        console.log("Categories from Redux:", categories);
+    }, [categories]);
+
     const handleToggle = (e) => {
         e.preventDefault();
         setVisible((prev) => !prev);
@@ -55,8 +55,8 @@ export default function Header() {
         window.location.href = "/login";
     };
     const avatarUrl = user?.email
-    ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`
-    : profile;
+        ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon`
+        : profile;
     return (
         <>
             <header className='flex gap-[30px] flex-col max-h-[1285px] w-full' >
@@ -86,15 +86,15 @@ export default function Header() {
                 <div className='flex justify-around pt-4 pb-4 md:hidden'>
                     <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
                     <div className='flex items-center gap-6'>
-                        <a href=""><img src={avatarUrl} alt="" className='w-6'/></a>
+                        <a href=""><img src={avatarUrl} alt="" className='w-6' /></a>
                         {user && user.name ? (
-                                <>
-                                    <span className='font-[500] text-[21px] text-[#23A6F0]'>{user.name}</span>
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )}
+                            <>
+                                <span className='font-[500] text-[21px] text-[#23A6F0]'>{user.name}</span>
+                            </>
+                        ) : (
+                            <>
+                            </>
+                        )}
                         <a href=""><img src={search} alt="" /></a>
                         <a href=""><img src={shoppingCard} alt="" /></a>
                         <a href="" onClick={handleToggle}><img src={menu} alt="" /></a>
@@ -105,18 +105,18 @@ export default function Header() {
                     <div className='flex gap-32 flex-1/2 px-8 items-center'>
                         <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
                         <div className='flex items-center gap-6'>
-                            <a href="" onClick={() => navigate('/')}><img src={homeweb} alt="" /></a>
-                            <a href="" onClick={shopToggle}><img src={shopweb} alt="" /></a>
-                            <a href="" onClick={() => navigate('/about')}><img src={aboutweb} alt="" /></a>
-                            <a href=""><img src={blogweb} alt="" /></a>
-                            <a href="" onClick={() => navigate('/contact')}><img src={contactweb} alt="" /></a>
-                            <a href="" onClick={pagesToggle}><img src={pagesweb} alt="" /></a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/')}>Home</a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold flex hover:border-b-2 items-center gap-2' onClick={shopToggle}>Shop <FaChevronDown/></a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/about')}>About</a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2'>Blog</a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/contact')}>Contact</a>
+                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={pagesToggle}>Pages</a>
                         </div>
                     </div>
 
                     <div className='flex gap-8'>
                         <div className='flex gap-4 items-center'>
-                            <img src={avatarUrl} alt="" className='w-4'/>
+                            <img src={avatarUrl} alt="" className='w-4' />
 
                             {user && user.name ? (
                                 <>
@@ -138,38 +138,78 @@ export default function Header() {
                             )}
                         </div>
 
-                        <div className='flex'>
-                            <a href=""><img src={searchweb} alt="" /></a>
-                            <a href=""><img src={shoppingcardweb} alt="" /></a>
-                            <a href=""><img src={likesweb} alt="" /></a>
+                        <div className='flex gap-8 items-center'>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch/></a>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaShoppingCart/></a>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaHeart/></a>
                         </div>
                     </div>
 
                 </div>
                 {shop && (
-                    <div className='absolute bg-white top-[134px] left-[550px] flex gap-16 z-10 pl-10 pr-32 pb-8 pt-4'>
+                    <div className='absolute bg-white top-[134px] left-[550px] flex gap-16 z-10 pl-10 pr-22 pb-8 pt-4 shadow-lg rounded-lg'>
+
+                        {/* Kadın kategorileri */}
                         <div className='flex flex-col gap-6'>
                             <div className='mb-4'>
-                                <a href="" className='text-[#252B42] text-[14px] font-[700]'>Kadın</a>
+                                <span className='text-[#252B42] text-[14px] font-[700]'>Kadın</span>
                             </div>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Bags</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Belts</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Cosmetics</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Bags</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Hats</a>
+                            {categories
+                                .filter(cat => cat.gender === "k")
+                                .map(cat => (
+                                    <a
+                                        key={cat.id}
+                                        href="#"
+                                        className='flex items-center gap-2 text-[#737373] text-[14px] font-[700] hover:text-[#23A6F0] transition-all duration-200'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/shop/${cat.gender}/${cat.title}/${cat.id}`);
+                                        }}
+                                    >
+                                        <img
+                                            src={cat.img}
+                                            alt={cat.title}
+                                            className='w-8 h-8 object-cover rounded-md hover:scale-110 transition-transform duration-200'
+                                        />
+                                        {cat.title}
+                                    </a>
+                                ))}
                         </div>
+
+                        {/* Erkek kategorileri */}
                         <div className='flex flex-col gap-6'>
                             <div className='mb-4'>
-                                <a href="" className='text-[#252B42] text-[14px] font-[700]'>Erkek</a>
+                                <span className='text-[#252B42] text-[14px] font-[700]'>Erkek</span>
                             </div>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Bags</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Belts</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Cosmetics</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Bags</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] '>Hats</a>
+                            {categories
+                                .filter(cat => cat.gender === "e")
+                                .map(cat => (
+                                    <a
+                                        key={cat.id}
+                                        href="#"
+                                        className='flex items-center gap-2 text-[#737373] text-[14px] font-[700] hover:text-[#23A6F0] transition-all duration-200'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(`/shop/${cat.gender}/${cat.title}/${cat.id}`);
+                                        }}
+                                    >
+                                        <img
+                                            src={cat.img}
+                                            alt={cat.title}
+                                            className='w-8 h-8 object-cover rounded-md hover:scale-110 transition-transform duration-200'
+                                        />
+                                        {cat.title}
+                                    </a>
+                                ))}
                         </div>
+
                     </div>
                 )}
+
+
+
+
+
 
                 {pages && (
                     <div className='absolute bg-gray-100 top-[134px] left-[810px] flex gap-16 z-10 pl-4 pr-16 pb-6 pt-4 rounded-xl'>

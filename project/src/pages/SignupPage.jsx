@@ -10,12 +10,10 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoles } from "../store/reducers/clientSlice";
 
-// Regex tanımları
 const phoneRegex = /^(\+90|0)?5\d{9}$/;
 const taxRegex = /^T\d{4}V\d{6}$/;
 const ibanRegex = /^TR\d{24}$/;
 
-// Validation Schema
 const schema = yup.object().shape({
   name: yup.string().required("İsim zorunlu").min(3, "En az 3 karakter olmalı"),
   email: yup.string().required("Email zorunlu").email("Geçerli bir email girin"),
@@ -33,7 +31,7 @@ const schema = yup.object().shape({
     .required("Şifre tekrar zorunlu"),
   role_id: yup.string().required("Rol seçiniz"),
   store: yup.object().when("role_id", {
-    is: (val) => val && val !== "1", // 1 => Customer
+    is: (val) => val && val !== "1", 
     then: () =>
       yup.object().shape({
         name: yup.string().required("Mağaza adı zorunlu").min(3),
@@ -72,20 +70,18 @@ export default function SignupPage() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      role_id: "1", // Customer default
+      role_id: "1", 
     },
   });
 
   const selectedRole = watch("role_id");
 
-  // Roles'ları sadece gerektiğinde getir
   useEffect(() => {
     if ((!roles || roles.length === 0) && rolesFetchState === "NOT_FETCHED") {
       dispatch(fetchRoles());
     }
   }, [dispatch, roles, rolesFetchState]);
 
-  // Hata durumunda toast göster
   useEffect(() => {
     if (rolesFetchState === "FAILED" && rolesError) {
       toast.error(rolesError);
@@ -118,7 +114,7 @@ export default function SignupPage() {
 
       await axiosInstance.post("/signup", payload);
       toast.success("Kayıt başarılı! E-postanıza gelen onay linkine tıklayın...");
-      navigate("/login", { replace: true }); // login sayfasına yönlendir
+      navigate("/login", { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.message || "Kayıt sırasında bir hata oluştu");
     } finally {
