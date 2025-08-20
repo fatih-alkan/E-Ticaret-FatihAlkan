@@ -18,7 +18,7 @@ export default function Filter({ total, sort, setSort, filter, setFilter, setCur
       </div>
 
       <div className="flex gap-2 items-center">
-        <select value={sort} onChange={e => setSort(e.target.value)} className="bg-[#DDDDDD] py-3 px-6 rounded-[5px] text-[#737373]">
+        <select value={sort} onChange={e => setSort(e.target.value)} className="bg-[#DDDDDD] py-3 px-2 rounded-[5px] text-[#737373]">
           <option value="">Sort by</option>
           <option value="price:asc">Price ↑</option>
           <option value="price:desc">Price ↓</option>
@@ -27,10 +27,10 @@ export default function Filter({ total, sort, setSort, filter, setFilter, setCur
         </select>
 
         <input type="text" placeholder="Filter..." value={filter} onChange={e => setFilter(e.target.value)}
-          className="border px-3 py-2 rounded-md"
+          className="border px-1 py-2 rounded-md w-32"
         />
 
-        <button onClick={() => setCurrentPage(1)} className="py-3 px-6 bg-[#23A6F0] text-white rounded-[5px] hover:opacity-70 flex items-center gap-2">
+        <button onClick={() => setCurrentPage(1)} className="py-3 px-3 bg-[#23A6F0] text-white rounded-[5px] hover:opacity-70 flex items-center gap-2">
           Filter <img src={arrowBottom} alt="Apply filter" />
         </button>
       </div>
