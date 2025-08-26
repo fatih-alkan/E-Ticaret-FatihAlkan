@@ -54,7 +54,7 @@ export default function ProductCard({ sort, filter, categoryId }) {
                 )
               }
             >
-              <div className="h-[427px] flex items-center justify-center">
+              <div className="h-[427px] flex items-center justify-center p-12">
                 <img
                   src={product.thumbnail || product.images?.[0]?.url}
                   className="w-full h-full object-cover rounded"
@@ -62,7 +62,7 @@ export default function ProductCard({ sort, filter, categoryId }) {
                 />
               </div>
 
-              <div className="p-6">
+              <div className="p-8">
                 <div className="flex flex-col justify-between items-center gap-3">
                   <div className="flex-col gap-2 flex text-center">
                     <h2 className="text-xl font-bold text-gray-800">

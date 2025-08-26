@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import profile from '../images/header-img/profile.png'
 import search from '../images/header-img/search.png'
-import shoppingCard from '../images/header-img/shopping-card.png'
 import menu from '../images/header-img/menu.png'
 import phone from '../images/header-img/phone.png'
 import message from '../images/header-img/message.png'
@@ -13,16 +12,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FaChevronDown, FaHeart, FaLink, FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/reducers/clientSlice";
+import { useLocation } from "react-router-dom";
 import md5 from 'blueimp-md5';
 import { fetchCategories } from "../store/reducers/categorySlice";
 import { useEffect } from "react";
+import CartDropdown from '../components/CartDropdown'
 
 export default function Header() {
+    const location = useLocation();
     const { user } = useSelector((state) => state.client);
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const [shop, setShop] = useState(false);
-    const [pages, setPages] = useState(false);
     const dispatch = useDispatch();
     const { list: categories } = useSelector((state) => state.categories);
     const cart = useSelector((state) => state.shoppingCart.cart);
@@ -35,7 +36,7 @@ export default function Header() {
     useEffect(() => {
         console.log("Categories from Redux:", categories);
     }, [categories]);
-
+    const [showCart, setShowCart] = useState(false);
     const handleToggle = (e) => {
         e.preventDefault();
         setVisible((prev) => !prev);
@@ -97,41 +98,114 @@ export default function Header() {
                             </>
                         )}
                         <a href=""><img src={search} alt="" /></a>
-                        <div onClick={(e) => {
-                                e.preventDefault();
-                                navigate("/shoppingcard");
-                            }} className="relative cursor-pointer">
-                                <a
-
-                                    className="text-gray-700 hover:opacity-80"
-                                >
-                                    <FaShoppingCart size={25} />
-                                </a>
-
+                        <div className="relative">
+                            <button
+                                className="text-gray-600 hover:opacity-80 relative cursor-pointer"
+                                onClick={() => setShowCart(prev => !prev)}
+                            >
+                                <FaShoppingCart size={25} />
                                 {totalCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                                         {totalCount}
                                     </span>
                                 )}
-                            </div>
+                            </button>
+
+                            {/* Mini sepet */}
+                            {showCart && (
+
+                                <div className='absolute right-[-40px] mt-2 w-88 bg-white shadow-lg border rounded-lg z-50 p-4'>
+                                    <CartDropdown />
+                                </div>
+                            )}
+                        </div>
                         <a href="" onClick={handleToggle}><img src={menu} alt="" /></a>
                     </div>
                 </div>
                 {/*web */}
-                <div className='hidden md:flex justify-around max-w-[1042px] mx-auto gap-16'>
-                    <div className='flex gap-32 flex-1/2 px-8 items-center'>
+                <div className='hidden md:flex justify-around w-full mx-auto gap-16 shadow-md py-2'>
+                    <div className='flex gap-32 px-8 items-center'>
                         <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
-                        <div className='flex items-center gap-6'>
-                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/')}>Home</a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold flex hover:border-b-2 items-center gap-2' onClick={shopToggle}>Shop <FaChevronDown /></a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/about')}>About</a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2'>Blog</a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={() => navigate('/contact')}>Contact</a>
-                            <a href="" className='text-gray-500 text-[14px] font-bold hover:border-b-2' onClick={pagesToggle}>Pages</a>
-                        </div>
-                    </div>
 
-                    <div className='flex gap-8'>
+                    </div>
+                    <div className='flex items-center gap-6'>
+                        <a
+                            href=""
+                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/" ? "font-normal" : "font-bold"
+                                }`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/");
+                            }}
+                        >
+                            Home
+                        </a>
+
+                        <div
+                            className={`flex items-center gap-2 hover:border-b-2 text-[14px] ${location.pathname.startsWith("/shop") ? "text-gray-500 font-normal" : "text-gray-500 font-bold"
+                                }`}
+                        >
+                            <a
+                                href=""
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate("/shop");
+                                }}
+                            >
+                                Shop
+                            </a>
+                            <a href="" onClick={shopToggle}>
+                                <FaChevronDown />
+                            </a>
+                        </div>
+
+                        <a
+                            href=""
+                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/about" ? "font-normal" : "font-bold"
+                                }`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/about");
+                            }}
+                        >
+                            About
+                        </a>
+
+                        <a
+                            href=""
+                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/blog" ? "font-normal" : "font-bold"
+                                }`}
+                            onClick={(e) => e.preventDefault()}
+                        >
+                            Blog
+                        </a>
+
+                        <a
+                            href=""
+                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/contact" ? "font-normal" : "font-bold"
+                                }`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/contact");
+                            }}
+                        >
+                            Contact
+                        </a>
+
+                        <a
+                            href=""
+                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/team" ? "font-normal" : "font-bold"
+                                }`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/team");
+                            }}
+                        >
+                            Team
+                        </a>
+
+                    </div>
+                    <div className='flex gap-8 items-center'>
                         <div className='flex gap-4 items-center'>
                             <img src={avatarUrl} alt="" className='w-4' />
 
@@ -157,21 +231,25 @@ export default function Header() {
 
                         <div className='flex gap-8 items-center'>
                             <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch /></a>
-                            <div onClick={(e) => {
-                                e.preventDefault();
-                                navigate("/shoppingcard");
-                            }} className="relative cursor-pointer">
-                                <a
-
-                                    className="text-[#23A6F0] hover:opacity-80"
+                            <div className="relative">
+                                <button
+                                    className="text-[#23A6F0] hover:opacity-80 relative cursor-pointer"
+                                    onClick={() => setShowCart(prev => !prev)}
                                 >
                                     <FaShoppingCart size={20} />
-                                </a>
+                                    {totalCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                            {totalCount}
+                                        </span>
+                                    )}
+                                </button>
 
-                                {totalCount > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                                        {totalCount}
-                                    </span>
+                                {/* Mini sepet */}
+                                {showCart && (
+
+                                    <div className='absolute right-0 mt-2 w-80 bg-white shadow-lg border rounded-lg z-50 p-4'>
+                                        <CartDropdown />
+                                    </div>
                                 )}
                             </div>
                             <a href="" className='text-[#23A6F0] hover:opacity-80'><FaHeart /></a>
@@ -244,18 +322,7 @@ export default function Header() {
 
 
 
-                {pages && (
-                    <div className='absolute bg-gray-100 top-[134px] left-[810px] flex gap-16 z-10 pl-4 pr-16 pb-6 pt-4 rounded-xl'>
-                        <div className='flex flex-col gap-6'>
-                            <a href="" onClick={() => navigate('/')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink /> Home Page</a>
-                            <a href="" onClick={() => navigate('/shop')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink />Shop Page</a>
-                            <a href="" onClick={() => navigate('/about')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink />About Us</a>
-                            <a href="" className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink />Blog</a>
-                            <a href="" onClick={() => navigate('/contact')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink />Contact</a>
-                            <a href="" onClick={() => navigate('/team')} className='text-[#737373] text-[14px] font-[700] flex items-center gap-2'><FaLink />Our Team</a>
-                        </div>
-                    </div>
-                )}
+
                 {visible && (
                     <div className='flex flex-col gap-8 justify-center items-center pb-8'>
                         <Link to="/">

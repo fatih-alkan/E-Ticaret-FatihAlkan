@@ -5,7 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProduct } from "../store/reducers/productDetailSlice";
-import { AiOutlineArrowLeft } from "react-icons/ai";
+import ProductCard from "../components/ProductCard";
+import Brands from "../components/Brands";
 
 export default function ProductDetail() {
   const { productId } = useParams(); // URL’den productId yakala
@@ -42,16 +43,12 @@ export default function ProductDetail() {
     <>
       <Header />
       <div className="max-w-6xl mx-auto px-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex gap-2 items-center mt-8 px-4 py-2 bg-gray-300 rounded-xl hover:bg-gray-400 cursor-pointer"
-        >
-          <AiOutlineArrowLeft />
-          Back
-        </button>
+        
 
         <ProductCardDetail product={product} />
       </div>
+      <ProductCard/>
+      <Brands/>
       <Footer />
     </>
   );

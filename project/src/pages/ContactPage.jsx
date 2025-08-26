@@ -1,14 +1,18 @@
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
-import Contact from "../components/Contact";
+import ContactBanner from "../components/ContactBanner";
+import ContactOffice from "../components/ContactOffice";
+import ContactMeet from "../components/ContactMeet";
 
 
-export default function ProductDetail() {
+export default function ContactPage() {
 
   return (
     <>
     <Header/>
-    <Contact/>
+    <ContactBanner/>
+    <ContactOffice/>
+    <ContactMeet/>
     <Footer/>
     </>
     
