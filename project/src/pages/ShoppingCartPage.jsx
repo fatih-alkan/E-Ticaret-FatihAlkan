@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ProductDetail() {
   const cart = useSelector((state) => state.shoppingCart.cart);
+  const { user } = useSelector((state) => state.client);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   if (!cart.length) return <div className=" text-center"><Header/><span className="font-bold text-gray-800 text-2xl">Sepetiniz Boş</span> <Footer/></div>;
 
   const totalPrice = cart
@@ -124,7 +125,13 @@ export default function ProductDetail() {
             <span className="font-bold text-gray-800">${finalTotal.toFixed(2)}</span>
           </div>
 
-          <button className="w-full bg-blue-400 text-white font-semibold py-2 rounded hover:bg-blue-500 transition-colors mb-2">
+          <button onClick={() => {
+            if (!user) {
+              navigate("/login"); 
+            } else {
+              navigate("/checkout/address"); 
+            }
+          }} className="w-full bg-blue-400 text-white font-semibold py-2 rounded hover:bg-blue-500 transition-colors mb-2 cursor-pointer">
             Create Order
           </button>
 

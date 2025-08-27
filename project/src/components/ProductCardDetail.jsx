@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/reducers/shoppingCartSlice";
 import { FaStar, FaRegStar, FaStarHalfAlt, FaHeart, FaRegHeart, FaShoppingCart, FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
 export default function ProductCardDetail({ product }) {
   if (!product) return null;
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { title, description, price, discountPercentage, images } = product;
   const [liked, setLiked] = useState(false);
@@ -20,6 +20,12 @@ export default function ProductCardDetail({ product }) {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
+  };
+  
+
+  const handleAddToCartAndRedirect = () => {
+    handleAddToCart(); 
+    navigate("/shoppingcard"); 
   };
 
   return (
@@ -108,7 +114,7 @@ export default function ProductCardDetail({ product }) {
 
           <div className="flex items-center gap-4">
             <button
-              onClick={handleAddToCart}
+              onClick={handleAddToCartAndRedirect}
               className="bg-[#23A6F0] text-white py-2 px-6 rounded cursor-pointer hover:bg-white hover:text-[#252B42] hover:border-2"
             >
               Add to Cart
@@ -116,8 +122,8 @@ export default function ProductCardDetail({ product }) {
             <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center " onClick={() => setLiked(!liked)}>
               {liked ? <FaHeart /> : <FaRegHeart />}
             </button>
-            <button onClick={handleAddToCart} className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaShoppingCart/> </button>
-            <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaEye/></button>
+            <button onClick={handleAddToCart} className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaShoppingCart /> </button>
+            <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaEye /></button>
           </div>
 
         </div>

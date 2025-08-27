@@ -50,6 +50,9 @@ const shoppingCartSlice = createSlice({
       if (item) item.checked = !item.checked;
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
+    clearCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
@@ -61,6 +64,7 @@ export const {
   removeFromCart,
   updateCount,
   toggleChecked,
+  clearCart,
 } = shoppingCartSlice.actions;
 
 export default shoppingCartSlice.reducer;

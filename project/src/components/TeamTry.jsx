@@ -14,7 +14,7 @@ export default function TeamTry() {
                     </p>
                 </div>
                 <div>
-                    <button className="text-white bg-[#23A6F0] px-4 py-2 rounded hover:border-2 hover:border-[#23A6F0] hover:bg-white hover:text-[#23A6F0]">
+                    <button className="text-white bg-[#23A6F0] px-4 py-2 rounded hover:border hover:border-[#23A6F0] hover:bg-white hover:text-[#23A6F0]">
                         Try it free now
                     </button>
                 </div>

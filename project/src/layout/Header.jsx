@@ -21,6 +21,7 @@ import CartDropdown from '../components/CartDropdown'
 export default function Header() {
     const location = useLocation();
     const { user } = useSelector((state) => state.client);
+    const [showUserMenu, setShowUserMenu] = useState(false);
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
     const [shop, setShop] = useState(false);
@@ -42,6 +43,11 @@ export default function Header() {
         setVisible((prev) => !prev);
     };
     const shopToggle = (e) => {
+        e.preventDefault();
+        setShop((prev) => !prev);
+        setPages(false);
+    }
+    const userToggle = (e) => {
         e.preventDefault();
         setShop((prev) => !prev);
         setPages(false);
@@ -90,14 +96,52 @@ export default function Header() {
                     <div className='flex items-center gap-6'>
                         <a href=""><img src={avatarUrl} alt="" className='w-6' /></a>
                         {user && user.name ? (
-                            <>
-                                <span className='font-[500] text-[21px] text-[#23A6F0]'>{user.name}</span>
-                            </>
+                            <div className="relative">
+                                <span
+                                    className='flex items-center gap-2 font-[500] text-[21px] text-[#23A6F0] cursor-pointer'
+                                    onClick={() => setShowUserMenu((prev) => !prev)}
+                                >
+                                    {user.name} <FaChevronDown />
+                                </span>
+
+                                {/* Dropdown Menü (mobil) */}
+                                {showUserMenu && (
+                                    <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                                        <button
+                                            onClick={() => {
+                                                navigate("/profile", { state: { tab: "overview" } });
+                                                setShowUserMenu(false);
+                                            }}
+                                            className="cursor-pointer w-full text-left px-4 py-2 text-[#23A6F0] hover:bg-gray-100"
+                                        >
+                                            Profile
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                navigate("/profile", { state: { tab: "orders" } });
+                                                setShowUserMenu(false);
+                                            }}
+                                            className="cursor-pointer w-full text-left px-4 py-2 text-[#23A6F0] hover:bg-gray-100"
+                                        >
+                                            Orders
+                                        </button>
+                                        <button
+                                            onClick={handleLogout}
+                                            className='w-full text-left px-4 py-2 text-[14px] text-red-500 cursor-pointer'
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         ) : (
-                            <>
-                            </>
+                            <></>
                         )}
-                        <a href=""><img src={search} alt="" /></a>
+
+                        <a href="">
+                            <img src={search} alt="" />
+                        </a>
+
                         <div className="relative">
                             <button
                                 className="text-gray-600 hover:opacity-80 relative cursor-pointer"
@@ -106,20 +150,22 @@ export default function Header() {
                                 <FaShoppingCart size={25} />
                                 {totalCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                                        {totalCount}
+                                        {cart.length}
                                     </span>
                                 )}
                             </button>
 
                             {/* Mini sepet */}
                             {showCart && (
-
                                 <div className='absolute right-[-40px] mt-2 w-88 bg-white shadow-lg border rounded-lg z-50 p-4'>
                                     <CartDropdown />
                                 </div>
                             )}
                         </div>
-                        <a href="" onClick={handleToggle}><img src={menu} alt="" /></a>
+
+                        <a href="" onClick={handleToggle}>
+                            <img src={menu} alt="" />
+                        </a>
                     </div>
                 </div>
                 {/*web */}
@@ -211,14 +257,45 @@ export default function Header() {
 
                             {user && user.name ? (
                                 <>
-                                    <span className='font-[700] text-[14px] text-[#23A6F0]'>{user.name}</span>
-                                    <p className='text-[#23A6F0] font-[700] text-[14px]'>/</p>
-                                    <button
-                                        onClick={handleLogout}
-                                        className='text-[14px] text-red-500 font-[700] cursor-pointer'
-                                    >
-                                        Logout
-                                    </button>
+                                    <div className="relative">
+                                        <span
+                                            className="flex items-center gap-2 font-[700] text-[14px] text-[#23A6F0] cursor-pointer"
+                                            onClick={() => setShowUserMenu((prev) => !prev)}
+                                        >
+                                            {user.name} <FaChevronDown />
+                                        </span>
+
+                                        {/* Dropdown Menü */}
+                                        {showUserMenu && (
+                                            <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                                                <button
+                                                    onClick={() => {
+                                                        navigate("/profile", { state: { tab: "overview" } });
+                                                        setShowUserMenu(false);
+                                                    }}
+                                                    className="cursor-pointer w-full text-left px-4 py-2 text-[#23A6F0] hover:bg-gray-100"
+                                                >
+                                                    Profile
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        navigate("/profile", { state: { tab: "orders" } });
+                                                        setShowUserMenu(false);
+                                                    }}
+                                                    className="cursor-pointer w-full text-left px-4 py-2 text-[#23A6F0] hover:bg-gray-100"
+                                                >
+                                                    Orders
+                                                </button>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className='w-full text-left px-4 py-2 text-[14px] text-red-500 cursor-pointer'
+                                                >
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
                                 </>
                             ) : (
                                 <>
@@ -239,7 +316,7 @@ export default function Header() {
                                     <FaShoppingCart size={20} />
                                     {totalCount > 0 && (
                                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                                            {totalCount}
+                                            {cart.length}
                                         </span>
                                     )}
                                 </button>
@@ -370,7 +447,7 @@ export default function Header() {
                 )}
 
 
-            </header>
+            </header >
         </>
     );
 }

@@ -16,6 +16,11 @@ import Login from './pages/LoginPage';
 import { useDispatch } from 'react-redux';
 import { setUser, logout } from './store/reducers/clientSlice';
 import axiosInstance from './api/axiosInstance';
+import OrderAddressPage from './pages/OrderAddressPage';
+import NewAddress from './pages/NewAddress';
+import OrderPaymentPage from './pages/OrderPaymentPage';
+import NewPayment from './pages/NewPayment';
+import Profile from './pages/Profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,8 +64,12 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/shoppingcard" element={<ShoppingCart/>} />
-
+        <Route path="/checkout/address" element={<OrderAddressPage/>} />
+        <Route path="/checkout/address/newaddress" element={<NewAddress/>} />
+        <Route path="/checkout/payment" element={<OrderPaymentPage/>} />
+        <Route path="/checkout/payment/newpayment" element={<NewPayment/>} />
       </Routes>
 
       <ToastContainer

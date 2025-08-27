@@ -10,7 +10,7 @@ export default function ContactMeet() {
                     WE Can't WAIT TO MEET YOU
                 </p>
                 <h2 className="text-3xl md:text-4xl font-bold text-[#252B42] mt-2">Let’s Talk</h2>
-                <button className="w-44 bg-[#23A6F0] text-white px-4 py-2 rounded m-auto">Try it free now</button>
+                <button className="w-44 bg-[#23A6F0] text-white px-4 py-2 rounded m-auto hover:border hover:border-[#23A6F0] hover:bg-white hover:text-[#23A6F0]">Try it free now</button>
             </div>
         </>
     )

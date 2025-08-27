@@ -6,6 +6,9 @@ import productReducer from "./reducers/productSlice";
 import shoppingCartReducer from "./reducers/shoppingCartSlice";
 import categoryReducer from "./reducers/categorySlice";
 import productDetailReducer from "./reducers/productDetailSlice";
+import addressReducer from "./reducers/addressSlice";
+import paymentReducer from "./reducers/paymentSlice";
+import ordersReducer from "./reducers/ordersSlice";
 const store = configureStore({
   reducer: {
     client: clientReducer,
@@ -13,6 +16,9 @@ const store = configureStore({
     shoppingCart: shoppingCartReducer,
     categories: categoryReducer,
     productDetail: productDetailReducer,
+    address: addressReducer,
+    payment: paymentReducer,
+    orders: ordersReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
