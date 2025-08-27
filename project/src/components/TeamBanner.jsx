@@ -6,7 +6,7 @@ import teamright4 from "../images/teamPage-img/teamright4.jpg"
 
 export default function TeamBanner() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-32 px-40">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-32 px-40 max-[768px]:px-10">
   {/* Sol büyük görsel */}
   <div className="md:col-span-2">
     <img

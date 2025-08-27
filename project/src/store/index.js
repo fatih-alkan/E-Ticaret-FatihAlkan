@@ -9,6 +9,7 @@ import productDetailReducer from "./reducers/productDetailSlice";
 import addressReducer from "./reducers/addressSlice";
 import paymentReducer from "./reducers/paymentSlice";
 import ordersReducer from "./reducers/ordersSlice";
+import likedReducer from "./reducers/likedSlice";
 const store = configureStore({
   reducer: {
     client: clientReducer,
@@ -19,6 +20,7 @@ const store = configureStore({
     address: addressReducer,
     payment: paymentReducer,
     orders: ordersReducer,
+    liked: likedReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

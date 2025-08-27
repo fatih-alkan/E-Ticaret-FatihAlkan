@@ -1,15 +1,28 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/reducers/shoppingCartSlice";
-import { FaStar, FaRegStar, FaStarHalfAlt, FaHeart, FaRegHeart, FaShoppingCart, FaEye } from "react-icons/fa";
+import { toggleLike } from "../store/reducers/likedSlice";
+import {
+  FaStar,
+  FaRegStar,
+  FaStarHalfAlt,
+  FaHeart,
+  FaRegHeart,
+  FaShoppingCart,
+  FaEye,
+} from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FiChevronRight } from "react-icons/fi";
+
 export default function ProductCardDetail({ product }) {
   if (!product) return null;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { title, description, price, discountPercentage, images } = product;
-  const [liked, setLiked] = useState(false);
+
+  const likedItems = useSelector((state) => state.liked.likedItems);
+  const isLiked = likedItems.some((item) => item.id === product.id);
+
   const [mainImage, setMainImage] = useState(
     images && images.length > 0 ? images[0] : ""
   );
@@ -21,11 +34,10 @@ export default function ProductCardDetail({ product }) {
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
-  
 
   const handleAddToCartAndRedirect = () => {
-    handleAddToCart(); 
-    navigate("/shoppingcard"); 
+    handleAddToCart();
+    navigate("/shoppingcard");
   };
 
   return (
@@ -40,10 +52,7 @@ export default function ProductCardDetail({ product }) {
         </Link>
       </div>
       <div className="flex pl-16 py-12 max-[768px]:flex-col gap-8 max-[768px]:p-0 max-[768px]:pb-16">
-
-
         {/* Görseller */}
-
         <div className="bg-white shadow-md">
           <div className="h-[417px] flex items-center justify-center">
             <img
@@ -73,7 +82,9 @@ export default function ProductCardDetail({ product }) {
             <p className="flex text-[#F3CD03]">
               {[...Array(5)].map((_, i) => {
                 const full = i + 1 <= Math.floor(product.rating);
-                const half = i + 0.5 === Math.floor(product.rating) + 0.5 && product.rating % 1 !== 0;
+                const half =
+                  i + 0.5 === Math.floor(product.rating) + 0.5 &&
+                  product.rating % 1 !== 0;
 
                 return full ? (
                   <FaStar key={i} />
@@ -97,10 +108,11 @@ export default function ProductCardDetail({ product }) {
               </span>
             </div>
             <div className="flex gap-8">
-              <p className="text-l text-gray-800 font-semibold">Stock: {product.stock}</p>
+              <p className="text-l text-gray-800 font-semibold">
+                Stock: {product.stock}
+              </p>
             </div>
           </div>
-
 
           <p className="text-[#858585]">{description}</p>
           <hr />
@@ -119,13 +131,22 @@ export default function ProductCardDetail({ product }) {
             >
               Add to Cart
             </button>
-            <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center " onClick={() => setLiked(!liked)}>
-              {liked ? <FaHeart /> : <FaRegHeart />}
+            <button
+              className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"
+              onClick={() => dispatch(toggleLike(product))}
+            >
+              {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
             </button>
-            <button onClick={handleAddToCart} className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaShoppingCart /> </button>
-            <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"> <FaEye /></button>
+            <button
+              onClick={handleAddToCart}
+              className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center"
+            >
+              <FaShoppingCart />
+            </button>
+            <button className="w-8 h-8 bg-white border border-black rounded-4xl text-xl flex items-center justify-center">
+              <FaEye />
+            </button>
           </div>
-
         </div>
       </div>
     </div>

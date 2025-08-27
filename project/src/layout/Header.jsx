@@ -9,7 +9,8 @@ import face from '../images/header-img/face.png'
 import youtube from '../images/header-img/youtube.png'
 import twitter from '../images/header-img/twitter.png'
 import { useNavigate, Link } from 'react-router-dom';
-import { FaChevronDown, FaHeart, FaLink, FaSearch, FaShoppingCart } from 'react-icons/fa';
+import { FaChevronDown, FaHeart, FaSearch, FaShoppingCart } from 'react-icons/fa';
+import { FiMoreHorizontal } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/reducers/clientSlice";
 import { useLocation } from "react-router-dom";
@@ -17,6 +18,7 @@ import md5 from 'blueimp-md5';
 import { fetchCategories } from "../store/reducers/categorySlice";
 import { useEffect } from "react";
 import CartDropdown from '../components/CartDropdown'
+import CartLikeDropdown from '../components/CartLikeDropDown'
 
 export default function Header() {
     const location = useLocation();
@@ -38,6 +40,8 @@ export default function Header() {
         console.log("Categories from Redux:", categories);
     }, [categories]);
     const [showCart, setShowCart] = useState(false);
+    const [showLikes, setShowLikes] = useState(false);
+    const { likedItems } = useSelector((state) => state.liked);
     const handleToggle = (e) => {
         e.preventDefault();
         setVisible((prev) => !prev);
@@ -93,12 +97,12 @@ export default function Header() {
                 {/*mobil */}
                 <div className='flex justify-around pt-4 pb-4 md:hidden'>
                     <h3 onClick={() => navigate('/')} className='font-bold text-2xl text-[#252B42] cursor-pointer'>Bandage</h3>
-                    <div className='flex items-center gap-6'>
+                    <div className='flex items-center gap-4'>
                         <a href=""><img src={avatarUrl} alt="" className='w-6' /></a>
                         {user && user.name ? (
                             <div className="relative">
                                 <span
-                                    className='flex items-center gap-2 font-[500] text-[21px] text-[#23A6F0] cursor-pointer'
+                                    className='flex items-center gap-2 font-[700] text-[21px] text-gray-600 cursor-pointer'
                                     onClick={() => setShowUserMenu((prev) => !prev)}
                                 >
                                     {user.name} <FaChevronDown />
@@ -138,16 +142,20 @@ export default function Header() {
                             <></>
                         )}
 
-                        <a href="">
-                            <img src={search} alt="" />
-                        </a>
+                        <button
+                                className="flex items-center text-gray-600 hover:opacity-80 relative cursor-pointer"
+                                
+                            >
+                                <FaSearch size={20} />
+                                
+                            </button>
 
                         <div className="relative">
                             <button
-                                className="text-gray-600 hover:opacity-80 relative cursor-pointer"
+                                className="flex items-center text-gray-600 hover:opacity-80 relative cursor-pointer"
                                 onClick={() => setShowCart(prev => !prev)}
                             >
-                                <FaShoppingCart size={25} />
+                                <FaShoppingCart size={20} />
                                 {totalCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                                         {cart.length}
@@ -162,10 +170,32 @@ export default function Header() {
                                 </div>
                             )}
                         </div>
+                        <div className="relative">
+                            <button
+                                className="flex items-center text-gray-600 hover:opacity-80 relative cursor-pointer"
+                                onClick={() => setShowLikes(prev => !prev)}
+                            >
+                                <FaHeart size={20} />
+                                {likedItems.length > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                        {likedItems.length}
+                                    </span>
+                                )}
+                            </button>
 
-                        <a href="" onClick={handleToggle}>
-                            <img src={menu} alt="" />
-                        </a>
+                            {showLikes && (
+                                <div className="absolute right-[-40px] mt-2 w-88 bg-white shadow-lg border rounded-lg z-50 p-4">
+                                    <CartLikeDropdown />
+                                </div>
+                            )}
+                        </div>
+                        <button
+                                className="flex items-center text-gray-600 hover:opacity-80 relative cursor-pointer"
+                                onClick={handleToggle}
+                            >
+                                <FiMoreHorizontal size={20} />
+                                
+                            </button>
                     </div>
                 </div>
                 {/*web */}
@@ -259,7 +289,7 @@ export default function Header() {
                                 <>
                                     <div className="relative">
                                         <span
-                                            className="flex items-center gap-2 font-[700] text-[14px] text-[#23A6F0] cursor-pointer"
+                                            className="flex items-center gap-2 font-[700] text-[18px] text-[#23A6F0] cursor-pointer"
                                             onClick={() => setShowUserMenu((prev) => !prev)}
                                         >
                                             {user.name} <FaChevronDown />
@@ -307,13 +337,13 @@ export default function Header() {
                         </div>
 
                         <div className='flex gap-8 items-center'>
-                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch /></a>
+                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaSearch size={25}/></a>
                             <div className="relative">
                                 <button
-                                    className="text-[#23A6F0] hover:opacity-80 relative cursor-pointer"
+                                    className="flex items-center text-[#23A6F0] hover:opacity-80 relative cursor-pointer"
                                     onClick={() => setShowCart(prev => !prev)}
                                 >
-                                    <FaShoppingCart size={20} />
+                                    <FaShoppingCart size={25} />
                                     {totalCount > 0 && (
                                         <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                                             {cart.length}
@@ -329,7 +359,26 @@ export default function Header() {
                                     </div>
                                 )}
                             </div>
-                            <a href="" className='text-[#23A6F0] hover:opacity-80'><FaHeart /></a>
+                            <div className="relative">
+                                <button
+                                    className="flex items-center text-[#23A6F0] hover:opacity-80 relative cursor-pointer"
+                                    onClick={() => setShowLikes(prev => !prev)}
+                                >
+                                    <FaHeart size={25}/>
+                                    {likedItems.length > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                            {likedItems.length}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {/* Mini Like dropdown */}
+                                {showLikes && (
+                                    <div className="absolute right-0 mt-2 w-80 bg-white shadow-lg border rounded-lg z-50 p-4">
+                                        <CartLikeDropdown />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
