@@ -247,14 +247,7 @@ export default function Header() {
                             About
                         </a>
 
-                        <a
-                            href=""
-                            className={`text-gray-500 text-[14px] hover:border-b-2 ${location.pathname === "/blog" ? "font-normal" : "font-bold"
-                                }`}
-                            onClick={(e) => e.preventDefault()}
-                        >
-                            Blog
-                        </a>
+                        
 
                         <a
                             href=""
