@@ -18,7 +18,7 @@ import md5 from 'blueimp-md5';
 import { fetchCategories } from "../store/reducers/categorySlice";
 import { useEffect } from "react";
 import CartDropdown from '../components/CartDropdown'
-import CartLikeDropdown from '../components/CartLikeDropDown'
+import CartLikeDropdown from '../components/CartLikeDropdown'
 
 export default function Header() {
     const location = useLocation();
