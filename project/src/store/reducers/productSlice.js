@@ -58,7 +58,7 @@ export const fetchProducts =
       }
 
       dispatch(setProductList(products));
-      dispatch(setTotal(data.total)); // backend total
+      dispatch(setTotal(data.total)); 
       dispatch(setFetchState("FETCHED"));
     } catch (err) {
       dispatch(setFetchState("FAILED"));

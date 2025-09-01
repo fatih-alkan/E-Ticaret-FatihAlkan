@@ -109,10 +109,10 @@ export default function ProductList({ sort, filter }) {
                   </div>
                   <div className="flex justify-center text-center gap-2">
                     <span className="font-bold text-[#BDBDBD] line-through">
-                      ${product.price + 20}
+                      ${(product.price + 20).toFixed(2)}
                     </span>
                     <span className="font-bold text-[#23856D]">
-                      ${product.price}
+                      ${product.price.toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -128,11 +128,10 @@ export default function ProductList({ sort, filter }) {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded border ${
-              currentPage === 1
+            className={`px-4 py-2 rounded border ${currentPage === 1
                 ? "bg-[#F3F3F3] text-[#BDBDBD]"
                 : "hover:bg-gray-200"
-            }`}
+              }`}
           >
             Prev
           </button>
@@ -146,11 +145,10 @@ export default function ProductList({ sort, filter }) {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`px-4 py-2 border rounded ${
-                  currentPage === page
+                className={`px-4 py-2 border rounded ${currentPage === page
                     ? "bg-[#23A6F0] text-white"
                     : "text-[#23A6F0] border-[#23A6F0] hover:bg-[#23856D]/10"
-                }`}
+                  }`}
               >
                 {page}
               </button>
@@ -162,11 +160,10 @@ export default function ProductList({ sort, filter }) {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded border ${
-              currentPage === totalPages
+            className={`px-4 py-2 rounded border ${currentPage === totalPages
                 ? "bg-gray-100 text-gray-400"
                 : "hover:bg-gray-200"
-            }`}
+              }`}
           >
             Next
           </button>

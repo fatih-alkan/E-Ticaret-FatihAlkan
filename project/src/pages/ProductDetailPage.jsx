@@ -9,7 +9,7 @@ import ProductCard from "../components/ProductCard";
 import Brands from "../components/Brands";
 
 export default function ProductDetail() {
-  const { productId } = useParams(); // URL’den productId yakala
+  const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

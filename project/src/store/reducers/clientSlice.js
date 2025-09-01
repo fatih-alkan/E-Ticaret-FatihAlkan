@@ -83,7 +83,7 @@ const clientSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch Roles
+      
       .addCase(fetchRoles.pending, (state) => {
         state.rolesFetchState = "FETCHING";
         state.rolesError = null;
@@ -96,7 +96,7 @@ const clientSlice = createSlice({
         state.rolesFetchState = "FAILED";
         state.rolesError = action.payload || action.error.message;
       })
-      // Login User
+      
       .addCase(loginUser.pending, (state) => {
         state.loginStatus = "loading";
         state.loginError = null;

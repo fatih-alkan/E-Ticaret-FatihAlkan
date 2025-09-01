@@ -85,8 +85,6 @@ export default function OrderAddress() {
                 </div>
             </div>
 
-            {/* Order Summary kısmı aynı */}
-
 
             {/* Order Summary */}
             <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-80">

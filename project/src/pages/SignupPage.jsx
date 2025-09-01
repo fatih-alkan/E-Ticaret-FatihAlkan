@@ -127,7 +127,10 @@ export default function SignupPage() {
     <>
       <Header />
       <div className="max-w-lg mx-auto mt-16">
-        <h1 className="text-5xl text-center font-bold mb-8 text-gray-800">Sign Up</h1>
+        <h1 className="text-5xl text-center font-bold mb-2 text-gray-800">Sign Up</h1>
+        <div className="text-center mb-8">
+          <a>Already a member? <span onClick={() => navigate('/login')} className="text-blue-500 font-semibold cursor-pointer hover:text-blue-400">Login</span></a>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Name */}
           <div>

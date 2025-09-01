@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import profile from '../images/header-img/profile.png'
-import search from '../images/header-img/search.png'
-import menu from '../images/header-img/menu.png'
 import phone from '../images/header-img/phone.png'
 import message from '../images/header-img/message.png'
 import insta from '../images/header-img/insta.png'
@@ -393,7 +391,7 @@ export default function Header() {
                                         className='flex items-center gap-2 text-[#737373] text-[14px] font-[700] hover:text-[#23A6F0] transition-all duration-200'
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            navigate(`/shop/${cat.gender}/${cat.title}/${cat.id}`);
+                                            navigate(`/shop`);
                                         }}
                                     >
                                         <img
@@ -420,7 +418,7 @@ export default function Header() {
                                         className='flex items-center gap-2 text-[#737373] text-[14px] font-[700] hover:text-[#23A6F0] transition-all duration-200'
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            navigate(`/shop/${cat.gender}/${cat.title}/${cat.id}`);
+                                            navigate(`/shop`);
                                         }}
                                     >
                                         <img

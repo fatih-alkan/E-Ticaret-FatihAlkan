@@ -5,7 +5,6 @@ import { MdEmail } from "react-icons/md";
 export default function ContactOffice() {
     const [active, setActive] = useState(2);
 
-    // kart bilgilerini tek array ile yönetelim
     const cards = [
         {
             id: 1,

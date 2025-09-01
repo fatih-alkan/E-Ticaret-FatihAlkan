@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const savedAddresses = localStorage.getItem("addresses");
 
 const initialState = {
-  addresses: savedAddresses ? JSON.parse(savedAddresses) : [], // artık array
+  addresses: savedAddresses ? JSON.parse(savedAddresses) : [], 
   selectedAddress: null,
 };
 

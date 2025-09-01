@@ -48,7 +48,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (loginStatus === "succeeded") {
       toast.success("Giriş başarılı!");
-      navigate("/", { replace: true }); 
+      navigate("/", { replace: true });
     }
   }, [loginStatus, user, navigate]);
 
@@ -62,7 +62,11 @@ export default function LoginPage() {
     <>
       <Header />
       <div className="max-w-md mx-auto mt-16">
-        <h1 className="text-4xl font-bold text-center mb-8">Login</h1>
+        <h1 className="text-5xl font-bold text-center mb-2">Login</h1>
+        <div className="text-center mb-8">
+          <a>Don't have an account? <span onClick={() => navigate('/signup')} className="text-blue-500 font-semibold cursor-pointer hover:text-blue-400">Register</span></a>
+        </div>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Email */}
           <div>

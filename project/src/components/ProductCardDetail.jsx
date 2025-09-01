@@ -30,6 +30,7 @@ export default function ProductCardDetail({ product }) {
   const discountedPrice = discountPercentage
     ? (price - price * (discountPercentage / 100)).toFixed(2)
     : null;
+  const displayPrice = price.toFixed(2);
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
@@ -100,11 +101,11 @@ export default function ProductCardDetail({ product }) {
             <div className="flex gap-2">
               {discountedPrice && (
                 <span className="font-bold text-[#BDBDBD] line-through">
-                  ${price}
+                  ${displayPrice}
                 </span>
               )}
               <span className="font-bold text-[#23856D]">
-                ${discountedPrice || price}
+                ${discountedPrice || displayPrice}
               </span>
             </div>
             <div className="flex gap-8">

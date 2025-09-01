@@ -77,7 +77,6 @@ export default function OrderPayment() {
                             <p>{payment.cardNumber}</p>
                             <p>Expiry: {payment.expiry}</p>
 
-                            {/* CVV Input */}
                             <div className="mt-4">
                                 <label className="block text-gray-700 font-medium mb-1">
                                     Enter CVV
@@ -92,7 +91,6 @@ export default function OrderPayment() {
                                 />
                             </div>
 
-                            {/* Delete button */}
                             <button
                                 onClick={handleDeleteCard}
                                 className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm font-bold cursor-pointer"

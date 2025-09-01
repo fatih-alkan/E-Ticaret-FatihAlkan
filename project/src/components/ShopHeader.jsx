@@ -31,7 +31,7 @@ export default function ShopHeader() {
             key={cat.id}
             className="w-62 cursor-pointer hover:scale-110 transform transition duration-200"
             onClick={() =>
-              navigate(`/shop/${cat.gender}/${cat.title}/${cat.id}`)
+              navigate(`/shop`)
             }
           >
             <div className="relative">

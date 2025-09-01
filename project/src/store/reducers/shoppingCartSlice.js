@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// LocalStorage'dan başlat
 const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const initialState = {
@@ -23,7 +22,6 @@ const shoppingCartSlice = createSlice({
     setAddress: (state, action) => {
       state.address = action.payload;
     },
-    // Yeni eklenen yardımcı reducer'lar
     addToCart: (state, action) => {
       const existingItem = state.cart.find(
         (item) => item.product.id === action.payload.id

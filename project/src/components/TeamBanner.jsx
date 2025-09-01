@@ -7,7 +7,6 @@ import teamright4 from "../images/teamPage-img/teamright4.jpg"
 export default function TeamBanner() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-32 px-40 max-[768px]:px-10">
-  {/* Sol büyük görsel */}
   <div className="md:col-span-2">
     <img
       src={teamleft}
@@ -16,7 +15,6 @@ export default function TeamBanner() {
     />
   </div>
 
-  {/* Sağdaki 4 küçük görsel */}
   <div className="grid grid-cols-2 grid-rows-2 gap-2 h-[300px] md:h-[550px]">
     <img src={teamright1} alt="team-right-1" className="w-full h-full object-cover rounded" />
     <img src={teamright2} alt="team-right-2" className="w-full h-full object-cover rounded" />

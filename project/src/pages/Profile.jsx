@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { logout } from "../store/reducers/clientSlice";
-import { clearOrders } from "../store/reducers/ordersSlice"; // ✅ Clear için import
+import { clearOrders } from "../store/reducers/ordersSlice";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 
